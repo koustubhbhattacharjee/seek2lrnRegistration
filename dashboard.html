@@ -498,6 +498,104 @@ body {
   gap: 0.6rem;
   transition: opacity 0.8s ease;
 }
+/* ── SPOTLIGHT TOUR ── */
+#spotOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 8000;
+  background: rgba(10, 16, 40, 0.72);
+  backdrop-filter: blur(1.5px);
+  transition: opacity 0.3s;
+}
+#spotOverlay.active { display: block; }
+
+.spot-target {
+  position: relative !important;
+  z-index: 8500 !important;
+  outline: 2.5px solid var(--orange) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 6px rgba(212,87,10,0.18), 0 0 36px 4px rgba(212,87,10,0.14) !important;
+  border-radius: 2px;
+  background: var(--page) !important;
+}
+
+#spotCard {
+  display: none;
+  position: fixed;
+  z-index: 9100;
+  background: var(--white);
+  border-top: 3px solid var(--orange);
+  padding: 1.3rem 1.5rem 1.1rem;
+  max-width: 310px;
+  min-width: 250px;
+  box-shadow: 0 12px 40px rgba(13,27,62,0.28), 0 2px 8px rgba(13,27,62,0.12);
+}
+#spotCard.active { display: block; }
+.spot-tag {
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--orange);
+  margin-bottom: 0.35rem;
+}
+.spot-title {
+  font-family: var(--sans); font-size: 1.05rem; font-weight: 800;
+  color: var(--navy); line-height: 1.25; margin-bottom: 0.55rem;
+}
+.spot-desc {
+  font-size: 0.82rem; color: var(--ink2); line-height: 1.65;
+}
+.spot-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 1rem; padding-top: 0.75rem;
+  border-top: 1px solid var(--divider);
+}
+.spot-counter {
+  font-size: 0.70rem; font-weight: 700; color: var(--ink4);
+  letter-spacing: 0.5px;
+}
+.spot-actions { display: flex; gap: 0.5rem; align-items: center; }
+.spot-skip {
+  background: transparent; border: none; cursor: pointer;
+  font-family: var(--sans); font-size: 0.75rem; color: var(--ink3);
+  font-weight: 600; padding: 0.28rem 0.5rem;
+}
+.spot-skip:hover { color: var(--ink1); }
+.spot-next {
+  background: var(--navy); color: #fff; border: none; cursor: pointer;
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.5px; padding: 0.38rem 1rem;
+  display: flex; align-items: center; gap: 0.3rem;
+}
+.spot-next:hover { background: var(--blue-mid); }
+.spot-dot-row {
+  display: flex; gap: 4px; align-items: center;
+}
+.spot-dot {
+  width: 6px; height: 6px; background: var(--ink4);
+  border-radius: 50%; transition: background 0.2s, transform 0.2s;
+}
+.spot-dot.cur { background: var(--orange); transform: scale(1.35); }
+/* connector arrow tip on card */
+#spotCard::before {
+  content: '';
+  position: absolute;
+  width: 10px; height: 10px;
+  background: var(--white);
+  border-top: 3px solid var(--orange);
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  top: -7px; left: 24px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+#spotCard.arrow-left::before { left: 24px; top: -7px; transform: none; }
+#spotCard.arrow-right::before { left: auto; right: 24px; top: -7px; }
+#spotCard.arrow-bottom::before {
+  top: auto; bottom: -7px; left: 24px;
+  clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+  border-top: none;
+  border-bottom: 3px solid var(--orange);
+}
+
 #welcomeOverlay.fade-out { opacity: 0; pointer-events: none; }
 #welcomeOverlay.hidden { display: none; }
 .wlc-emoji { font-size: 3.5rem; animation: wlcPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
@@ -511,6 +609,25 @@ body {
 </style>
 </head>
 <body>
+
+<!-- SPOTLIGHT OVERLAY -->
+<div id="spotOverlay" onclick="endSpotlightTour()"></div>
+
+<!-- SPOTLIGHT CARD -->
+<div id="spotCard">
+  <div class="spot-tag" id="spotTag">Section 1 of 12</div>
+  <div class="spot-title" id="spotTitle">Section Name</div>
+  <div class="spot-desc" id="spotDesc">Description goes here.</div>
+  <div class="spot-footer">
+    <div class="spot-dot-row" id="spotDots"></div>
+    <div class="spot-actions">
+      <button class="spot-skip" onclick="endSpotlightTour()">Skip</button>
+      <button class="spot-next" id="spotNextBtn" onclick="spotlightNext()">
+        Next <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5h6M5.5 2.5L8 5l-2.5 2.5" stroke-linecap="square"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- WELCOME OVERLAY -->
 <div id="welcomeOverlay" class="hidden">
@@ -534,6 +651,10 @@ body {
     <div style="font-size:0.7rem;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;">Tutor Dashboard</div>
   </div>
   <div class="nav-right">
+    <button id="tourBtn" onclick="startSpotlightTour()" style="background:transparent;border:1.5px solid var(--orange);color:var(--orange);font-family:var(--sans);font-size:0.72rem;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:0.28rem 0.7rem;cursor:pointer;display:flex;align-items:center;gap:0.3rem;" title="Dashboard tour">
+      <svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5.5"/><path d="M7 6.2v4M7 4.5v.5" stroke-linecap="square"/></svg>
+      Tour
+    </button>
     <div class="notif">
       <svg viewBox="0 0 16 16"><path d="M8 1a5 5 0 00-5 5v3l-1.5 2h13L13 9V6a5 5 0 00-5-5z"/><path d="M6.5 14a1.5 1.5 0 003 0"/></svg>
       <div class="notif-count">3</div>
@@ -615,7 +736,7 @@ body {
 
       <!-- Col 1: Greeting + Quote + Schedule (tall) -->
       <div style="display:flex;flex-direction:column;gap:0.85rem;">
-        <div class="card" style="flex:1;">
+        <div class="card" id="spot-name" style="flex:1;">
           <div id="greetBlock">
             <div style="font-size:1.5rem;margin-bottom:0.3rem;" id="timeEmoji">🌅</div>
             <div style="font-family:var(--sans);font-size:1.15rem;font-weight:700;color:var(--navy);line-height:1.2;" id="greetName">Good morning, Koustubh.</div>
@@ -626,7 +747,7 @@ body {
           <div style="font-size:0.7rem;color:var(--ink3);margin-top:0.3rem;">— William Arthur Ward</div>
         </div>
 
-        <div class="card" style="flex:2;">
+        <div class="card" id="spot-schedule" style="flex:2;">
           <div class="shdr"><h2>My Schedule</h2><a href="#">Full calendar →</a></div>
 
           <div style="font-size:0.46rem;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:0.14rem;">Apr 7–13 · prev</div>
@@ -653,7 +774,7 @@ body {
             <div class="dcol"><div class="dlbl">Sun</div><div class="dnum">20</div></div>
           </div>
 
-          <div style="margin-top:0.7rem;">
+          <div id="spot-timeblocks" style="margin-top:0.7rem;">
             <div class="shdr" style="margin-bottom:0.3rem;"><h2>Time blocks</h2></div>
             <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0.22rem;font-size:0.46rem;color:var(--ink3);text-align:center;margin-bottom:0.2rem;">
               <div>8am</div><div>9am</div><div>10am</div><div>11am</div><div>12pm</div><div>2pm</div><div>4pm</div>
@@ -669,7 +790,7 @@ body {
             </div>
           </div>
 
-          <div class="due-row" style="margin-top:0.6rem;">
+          <div id="spot-hwdue" class="due-row" style="margin-top:0.6rem;">
             <div class="due-it"><b>3 Homeworks Due</b><span>Priya, Rahul, Dev</span></div>
             <div class="due-it bld"><b>2 Content Revisions</b><span>Phys Ch.4 · Math Ch.7</span></div>
           </div>
@@ -679,7 +800,7 @@ body {
       <!-- Col 2: Requests + Assessment -->
       <div class="card" style="padding:0;">
         <!-- Request List -->
-        <div style="padding:1.2rem 1.6rem;">
+        <div id="spot-reqlist" style="padding:1.2rem 1.6rem;">
           <div class="shdr"><h2>Request List</h2><a href="#">See all →</a></div>
           <table class="rtable">
             <thead><tr><th>Name</th><th>Country</th><th>Type</th><th>Group</th><th></th></tr></thead>
@@ -695,7 +816,7 @@ body {
         <div style="height:1px;margin:0 1.6rem;background:linear-gradient(to right,transparent 0%,var(--div-color) 5%,var(--div-color) 95%,transparent 100%);"></div>
 
         <!-- Requests This Month -->
-        <div style="padding:1.2rem 1.6rem;">
+        <div id="spot-reqreview" style="padding:1.2rem 1.6rem;">
           <div class="shdr"><h2>Requests This Month</h2></div>
           <div style="display:flex;align-items:baseline;gap:0.35rem;margin-bottom:0.5rem;">
             <span style="font-family:var(--mono);font-size:1.8rem;font-weight:600;color:var(--navy);letter-spacing:-1px;">24</span>
@@ -709,7 +830,7 @@ body {
         <div style="height:1px;margin:0 1.6rem;background:linear-gradient(to right,transparent 0%,var(--div-color) 5%,var(--div-color) 95%,transparent 100%);"></div>
 
         <!-- Assessment List -->
-        <div style="padding:1.2rem 1.6rem;">
+        <div id="spot-assessment" style="padding:1.2rem 1.6rem;">
           <div class="shdr"><h2>Assessment List</h2><a href="#">All →</a></div>
           <div class="ass"><div class="ass-top"><span class="ass-name">Physics Mock Test 3</span><span class="ass-score">84%</span></div><div class="ass-sub">Priya · Apr 10</div><div class="pbar"><div class="pfill" style="width:84%"></div></div></div>
           <div class="ass"><div class="ass-top"><span class="ass-name">Maths Quiz — Calculus</span><span class="ass-score">71%</span></div><div class="ass-sub">Rahul · Apr 8</div><div class="pbar"><div class="pfill" style="width:71%"></div></div></div>
@@ -720,7 +841,7 @@ body {
 
       <!-- Col 3: Earnings + Uploads -->
       <div style="display:flex;flex-direction:column;gap:0.85rem;">
-        <div class="card">
+        <div class="card" id="spot-earnings">
           <div class="shdr"><h2>My Earnings</h2><a href="#">View all →</a></div>
           <div class="earn-stats">
             <div class="estat"><div class="el">This Month</div><div class="ev">$1,240 <small>USD</small></div></div>
@@ -729,15 +850,17 @@ body {
           </div>
           <div class="earn-chg">vs last month: <span class="up">▲ +14.2%</span></div>
           <div class="chart-h70"><canvas id="earningsChart"></canvas></div>
+          <div id="spot-topstudent">
           <div style="font-size:0.70rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;margin:0.45rem 0 0.2rem;">Top Earners</div>
           <div class="earners">
             <div class="er"><div class="er-rank r1">1</div><span class="er-name">Priya Sharma</span><span class="er-amt">$320</span></div>
             <div class="er"><div class="er-rank r2">2</div><span class="er-name">Rahul Mehta</span><span class="er-amt">$280</span></div>
             <div class="er"><div class="er-rank r3">3</div><span class="er-name">Ayesha Khan</span><span class="er-amt">$210</span></div>
           </div>
+          </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="spot-uploads">
           <div class="shdr"><h2>My Uploads</h2><a href="#">See all →</a></div>
           <div class="upl"><div class="ftype pdf">PDF</div><div><div class="upl-name">Physics Ch.4 Notes</div><div class="upl-date">Apr 13 · 2.1 MB</div></div></div>
           <div class="upl"><div class="ftype vid">VID</div><div><div class="upl-name">Mechanics Intro</div><div class="upl-date">Apr 12 · 84 MB</div></div></div>
@@ -757,7 +880,7 @@ body {
       <div class="card bot-card" style="display:grid;grid-template-columns:1fr 1px 1.6fr;gap:0;grid-column:1/-1;">
 
         <!-- Left: Individual session panel -->
-        <div style="padding:0 1rem 0 0;">
+        <div id="spot-studentdata" style="padding:0 1rem 0 0;">
           <div class="shdr"><h2>Individual</h2></div>
 
           <!-- ring + picker side by side -->
@@ -808,7 +931,7 @@ body {
         <div style="background:linear-gradient(to bottom, transparent 0%, var(--div-color) 5%, var(--div-color) 95%, transparent 100%);width:1px;"></div>
 
         <!-- Right: Group panel — charts left compressed, picker+ring right -->
-        <div style="padding:0 0 0 0.8rem;display:flex;flex-direction:column;gap:0.3rem;height:100%;">
+        <div id="spot-groupdata" style="padding:0 0 0 0.8rem;display:flex;flex-direction:column;gap:0.3rem;height:100%;">
 
           <!-- Groups header — only over the right two cols -->
           <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0;margin-bottom:0.1rem;">
@@ -1233,10 +1356,13 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
         if (wlcName) wlcName.textContent = p.firstName + '!';
         if (wlcSub)  wlcSub.textContent  = 'Your dashboard is ready. Let\'s get started.';
         overlay.classList.remove('hidden');
-        // Fade out after 2.6s then hide
+        // Fade out after 2.6s then hide, then auto-start the spotlight tour
         setTimeout(function() {
           overlay.classList.add('fade-out');
-          setTimeout(function() { overlay.classList.add('hidden'); }, 850);
+          setTimeout(function() {
+            overlay.classList.add('hidden');
+            startSpotlightTour();
+          }, 850);
         }, 2600);
         // Clean up URL so refresh doesn't re-trigger
         history.replaceState(null, '', window.location.pathname);
@@ -1441,6 +1567,192 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
   var sel = document.getElementById('masterGroupSelect');
   if (sel) sel.addEventListener('change', function(){ switchGroup(this.value); });
 })();
+
+// ══════════════════════════════════════════════════
+// SPOTLIGHT TOUR
+// ══════════════════════════════════════════════════
+var _spotStep = 0;
+var _spotActive = false;
+
+var _spotSteps = [
+  {
+    id: 'spot-name',
+    title: 'Your Profile & Greeting',
+    desc: 'This card welcomes you by name with the time of day and today\'s date. It also shows a rotating motivational quote — a small ritual to set the tone before your first session.'
+  },
+  {
+    id: 'spot-schedule',
+    title: 'My Schedule',
+    desc: 'Your two-week calendar at a glance. Last week\'s sessions are shown above, this week\'s below — colour-coded by subject so you can scan who\'s on today without opening a calendar app.'
+  },
+  {
+    id: 'spot-timeblocks',
+    title: 'Time Blocks',
+    desc: 'A visual heat-map of your available teaching hours. Blue slots are confirmed sessions, orange slots are tentative or pending. Empty grey slots are open — great for spotting gaps to offer new students.'
+  },
+  {
+    id: 'spot-hwdue',
+    title: 'Homeworks Due & Content Reviews',
+    desc: 'Quick-action alerts at the bottom of your schedule. The left pill shows homeworks your students need to submit; the right shows content materials flagged for your review before the next lesson.'
+  },
+  {
+    id: 'spot-reqlist',
+    title: 'Request List',
+    desc: 'New booking requests from prospective students waiting for your approval. Each row shows the student\'s name, country, whether they want 1-on-1 or group tuition, and the batch they\'d join. One click to approve.'
+  },
+  {
+    id: 'spot-reqreview',
+    title: 'Request Review',
+    desc: 'A running summary of all requests received this month — total count, trend vs last month, and a country breakdown. Use this to gauge demand and decide if you need to expand capacity.'
+  },
+  {
+    id: 'spot-assessment',
+    title: 'Assessment List',
+    desc: 'The most recently submitted assessments across all your students. Each row shows the test name, score, student, and date — with a progress bar so you can spot who\'s improving and who needs attention.'
+  },
+  {
+    id: 'spot-earnings',
+    title: 'My Earnings',
+    desc: 'Your financial snapshot: this month\'s revenue, year-to-date total, and percentage of your earnings goal. The line chart below tracks weekly income — hover it to animate the trend.'
+  },
+  {
+    id: 'spot-topstudent',
+    title: 'Top Students by Income',
+    desc: 'Your three highest-value students ranked by session revenue this month. Great for recognising your most engaged learners and understanding where your income is concentrated.'
+  },
+  {
+    id: 'spot-uploads',
+    title: 'My Uploads',
+    desc: 'All content you\'ve shared with students — PDFs, videos, and documents — listed by upload date with file size. Drafts sit below the divider so work-in-progress never clutters the published list.'
+  },
+  {
+    id: 'spot-studentdata',
+    title: 'Student Data',
+    desc: 'Deep-dive into any individual student. Pick a student and subject to reveal their mastery ring (Mastered / In Progress / Weak), upcoming session, weak topics, homework status, and key exam dates.'
+  },
+  {
+    id: 'spot-groupdata',
+    title: 'Group Data',
+    desc: 'Batch-level analytics — monthly score trends, last-assessment scores for every student in the batch, and summary stats (mean, median, std. deviation). The ring on the right gives a cohort health snapshot.'
+  }
+];
+
+function startSpotlightTour() {
+  _spotStep = 0;
+  _spotActive = true;
+  document.getElementById('spotOverlay').classList.add('active');
+  document.getElementById('spotCard').classList.add('active');
+  _buildDots();
+  _showStep(_spotStep);
+}
+
+function endSpotlightTour() {
+  _spotActive = false;
+  document.getElementById('spotOverlay').classList.remove('active');
+  document.getElementById('spotCard').classList.remove('active');
+  _clearTarget();
+}
+
+function spotlightNext() {
+  _spotStep++;
+  if (_spotStep >= _spotSteps.length) {
+    endSpotlightTour();
+    return;
+  }
+  _showStep(_spotStep);
+}
+
+function _buildDots() {
+  var container = document.getElementById('spotDots');
+  container.innerHTML = '';
+  _spotSteps.forEach(function(_, i) {
+    var d = document.createElement('div');
+    d.className = 'spot-dot' + (i === 0 ? ' cur' : '');
+    container.appendChild(d);
+  });
+}
+
+function _updateDots(idx) {
+  var dots = document.querySelectorAll('.spot-dot');
+  dots.forEach(function(d, i) {
+    d.classList.toggle('cur', i === idx);
+  });
+}
+
+function _clearTarget() {
+  document.querySelectorAll('.spot-target').forEach(function(el) {
+    el.classList.remove('spot-target');
+  });
+}
+
+function _showStep(idx) {
+  var step = _spotSteps[idx];
+  var el = document.getElementById(step.id);
+  if (!el) { spotlightNext(); return; }
+
+  // Update copy
+  document.getElementById('spotTag').textContent = 'Section ' + (idx + 1) + ' of ' + _spotSteps.length;
+  document.getElementById('spotTitle').textContent = step.title;
+  document.getElementById('spotDesc').textContent = step.desc;
+  _updateDots(idx);
+
+  // Last step changes button label
+  var btn = document.getElementById('spotNextBtn');
+  if (idx === _spotSteps.length - 1) {
+    btn.innerHTML = 'Done <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5l2.5 2.5L8 2" stroke-linecap="square"/></svg>';
+  } else {
+    btn.innerHTML = 'Next <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5h6M5.5 2.5L8 5l-2.5 2.5" stroke-linecap="square"/></svg>';
+  }
+
+  // Highlight target
+  _clearTarget();
+  el.classList.add('spot-target');
+
+  // Scroll into view then position card
+  el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+  setTimeout(function() { _positionCard(el); }, 380);
+}
+
+function _positionCard(el) {
+  var card = document.getElementById('spotCard');
+  var rect = el.getBoundingClientRect();
+  var cardW = 310;
+  var cardH = card.offsetHeight || 200;
+  var pad = 16;
+  var vw = window.innerWidth;
+  var vh = window.innerHeight;
+
+  var top, left;
+  card.className = 'active'; // reset arrow class
+
+  // Try: place card BELOW the element
+  if (rect.bottom + cardH + pad < vh) {
+    top  = rect.bottom + pad;
+    left = Math.max(pad, Math.min(rect.left, vw - cardW - pad));
+    card.classList.add('arrow-left');
+  }
+  // Try: place card ABOVE
+  else if (rect.top - cardH - pad > 0) {
+    top  = rect.top - cardH - pad;
+    left = Math.max(pad, Math.min(rect.left, vw - cardW - pad));
+    card.classList.add('arrow-bottom');
+  }
+  // Try: place card to the RIGHT
+  else if (rect.right + cardW + pad < vw) {
+    top  = Math.max(pad, Math.min(rect.top, vh - cardH - pad));
+    left = rect.right + pad;
+    card.classList.add('arrow-left');
+  }
+  // Fallback: place card to the LEFT
+  else {
+    top  = Math.max(pad, Math.min(rect.top, vh - cardH - pad));
+    left = Math.max(pad, rect.left - cardW - pad);
+    card.classList.add('arrow-right');
+  }
+
+  card.style.top  = top  + 'px';
+  card.style.left = left + 'px';
+}
 </script>
 </body>
 </html>
