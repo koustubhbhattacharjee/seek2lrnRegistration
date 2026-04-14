@@ -490,9 +490,36 @@ body {
 .review-stars { font-size: 0.7rem; color: var(--orange); letter-spacing: 1px; }
 .review-text { font-size: 0.72rem; color: var(--ink2); line-height: 1.5; font-style: italic; }
 
+/* ── WELCOME OVERLAY ── */
+#welcomeOverlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(135deg, #0a1e4a 0%, #1558d6 55%, #0e9aad 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.6rem;
+  transition: opacity 0.8s ease;
+}
+#welcomeOverlay.fade-out { opacity: 0; pointer-events: none; }
+#welcomeOverlay.hidden { display: none; }
+.wlc-emoji { font-size: 3.5rem; animation: wlcPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+.wlc-line1 { font-family: 'Epilogue', sans-serif; font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.7); letter-spacing: 3px; text-transform: uppercase; animation: wlcFadeUp 0.5s 0.15s ease both; }
+.wlc-name  { font-family: 'Epilogue', sans-serif; font-size: 2.8rem; font-weight: 800; color: #fff; line-height: 1.1; animation: wlcFadeUp 0.55s 0.3s ease both; }
+.wlc-line2 { font-family: 'Epilogue', sans-serif; font-size: 0.88rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem; animation: wlcFadeUp 0.55s 0.45s ease both; }
+.wlc-bar   { width: 0; height: 3px; background: rgba(255,255,255,0.5); border-radius: 2px; margin-top: 1.8rem; animation: wlcGrow 2s 0.7s ease forwards; }
+@keyframes wlcPop     { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes wlcFadeUp  { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes wlcGrow    { from { width: 0; } to { width: 200px; } }
 </style>
 </head>
 <body>
+
+<!-- WELCOME OVERLAY -->
+<div id="welcomeOverlay" class="hidden">
+  <div class="wlc-emoji">🎉</div>
+  <div class="wlc-line1">Welcome to</div>
+  <div class="wlc-name" id="wlcName">SEEK2LRN</div>
+  <div class="wlc-line2" id="wlcSub">Your dashboard is ready.</div>
+  <div class="wlc-bar"></div>
+</div>
 
 
 
@@ -592,7 +619,7 @@ body {
           <div id="greetBlock">
             <div style="font-size:1.5rem;margin-bottom:0.3rem;" id="timeEmoji">🌅</div>
             <div style="font-family:var(--sans);font-size:1.15rem;font-weight:700;color:var(--navy);line-height:1.2;" id="greetName">Good morning, Koustubh.</div>
-            <div style="font-size:0.78rem;color:var(--ink3);margin-top:0.2rem;">Tuesday, April 15</div>
+            <div style="font-size:0.78rem;color:var(--ink3);margin-top:0.2rem;" id="greetDate"></div>
           </div>
           <div style="background: linear-gradient(to right, transparent 0%, var(--div-color) 12%, var(--div-color) 88%, transparent 100%); height:2px; border:none;margin:0.9rem 0;"></div>
           <div style="font-size:0.85rem;color:var(--ink2);line-height:1.7;font-style:italic;" id="quoteText">"The mediocre teacher tells. The good teacher explains. The superior teacher demonstrates. The great teacher inspires."</div>
@@ -1134,10 +1161,39 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
   }
 })();
 (function() {
-  var raw = localStorage.getItem('seek2lrn_tutor');
-  if (!raw) return;
+  // Time-based emoji + greeting prefix
+  var h = new Date().getHours();
+  var emoji, g;
+  if      (h < 5)  { emoji = '🌙'; g = 'Burning the midnight oil,'; }
+  else if (h < 12) { emoji = '🌅'; g = 'Good morning,'; }
+  else if (h < 17) { emoji = '☀️';  g = 'Good afternoon,'; }
+  else if (h < 20) { emoji = '🌇'; g = 'Good evening,'; }
+  else             { emoji = '🌙'; g = 'Good night,'; }
+
+  var el = document.getElementById('timeEmoji');
+  if (el) el.textContent = emoji;
+
+  var dateEl = document.getElementById('greetDate');
+  if (dateEl) {
+    var now = new Date();
+    dateEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  }
+
+  // Load profile from localStorage (tutor or student)
+  var raw = localStorage.getItem('seek2lrn_tutor') || localStorage.getItem('seek2lrn_student');
+  if (!raw) {
+    // No profile — keep default placeholder greeting
+    var gn = document.getElementById('greetName');
+    if (gn) gn.textContent = g + ' there.';
+    return;
+  }
+
   try {
     var p = JSON.parse(raw);
+
+    // Greeting card
+    var greetName = document.getElementById('greetName');
+    if (greetName) greetName.textContent = g + ' ' + p.firstName + '.';
 
     // Nav avatar initials
     var av = document.querySelector('.avatar');
@@ -1149,15 +1205,7 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
     var profSub  = document.querySelector('.prof-sub');
     if (profSq)   profSq.textContent   = p.initials;
     if (profName) profName.textContent = p.fullName;
-    if (profSub)  profSub.textContent  = p.subjects.join(' / ') + ' (' + p.level + ')';
-
-    // Greeting card
-    var greetName = document.getElementById('greetName');
-    if (greetName) {
-      var h = new Date().getHours();
-      var g = h < 5 ? 'Burning the midnight oil,' : h < 12 ? 'Good morning,' : h < 17 ? 'Good afternoon,' : h < 20 ? 'Good evening,' : 'Good night,';
-      greetName.textContent = g + ' ' + p.firstName + '.';
-    }
+    if (profSub && p.subjects)  profSub.textContent  = p.subjects.join(' / ') + ' (' + p.level + ')';
 
     // Nav center
     var navCenter = document.querySelector('.nav-center div');
@@ -1166,7 +1214,6 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
     // Subject dropdowns in student/group selects
     if (p.subjects && p.subjects.length) {
       document.querySelectorAll('.msel').forEach(function(sel) {
-        // if it's a subject select (has Physics or Mathematics options), repopulate
         var opts = Array.from(sel.options).map(function(o){ return o.text; });
         if (opts.indexOf('Physics') > -1 || opts.indexOf('Mathematics') > -1) {
           sel.innerHTML = p.subjects.map(function(s) {
@@ -1176,20 +1223,27 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
       });
     }
 
+    // Welcome overlay — only show on first arrival from registration
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('welcome') === '1') {
+      var overlay = document.getElementById('welcomeOverlay');
+      var wlcName = document.getElementById('wlcName');
+      var wlcSub  = document.getElementById('wlcSub');
+      if (overlay) {
+        if (wlcName) wlcName.textContent = p.firstName + '!';
+        if (wlcSub)  wlcSub.textContent  = 'Your dashboard is ready. Let\'s get started.';
+        overlay.classList.remove('hidden');
+        // Fade out after 2.6s then hide
+        setTimeout(function() {
+          overlay.classList.add('fade-out');
+          setTimeout(function() { overlay.classList.add('hidden'); }, 850);
+        }, 2600);
+        // Clean up URL so refresh doesn't re-trigger
+        history.replaceState(null, '', window.location.pathname);
+      }
+    }
+
   } catch(e) { console.warn('Profile parse error', e); }
-})();
-(function() {
-  var h = new Date().getHours();
-  var emoji, greeting;
-  if      (h < 5)  { emoji = '🌙'; greeting = 'Burning the midnight oil,'; }
-  else if (h < 12) { emoji = '🌅'; greeting = 'Good morning,'; }
-  else if (h < 17) { emoji = '☀️';  greeting = 'Good afternoon,'; }
-  else if (h < 20) { emoji = '🌇'; greeting = 'Good evening,'; }
-  else             { emoji = '🌙'; greeting = 'Good night,'; }
-  var el = document.getElementById('timeEmoji');
-  var gn = document.getElementById('greetName');
-  if (el) el.textContent = emoji;
-  if (gn) gn.textContent = greeting + ' Koustubh.';
 })();
 
 // ── Group charts ──

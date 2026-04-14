@@ -232,26 +232,26 @@ footer { background: #0d1b3e; color: rgba(255,255,255,0.82); margin-top: 3rem; }
         <h2>Create your student account</h2>
         <p class="fc-sub">Register as a student</p>
         <div class="frow two">
-          <div class="field"><label>First name</label><input type="text" placeholder="Jane"></div>
-          <div class="field"><label>Last name</label><input type="text" placeholder="Doe"></div>
+          <div class="field"><label>First name</label><input id="sf-first" type="text" placeholder="Jane"></div>
+          <div class="field"><label>Last name</label><input id="sf-last" type="text" placeholder="Doe"></div>
         </div>
         <div class="frow one">
-          <div class="field"><label>Email address</label><input type="email" placeholder="jane.doe@email.com"></div>
+          <div class="field"><label>Email address</label><input id="sf-email" type="email" placeholder="jane.doe@email.com"></div>
         </div>
         <div class="frow one">
-          <div class="field"><label>Phone number <span class="opt">(optional)</span></label><input type="tel" placeholder="+1 (555) 000-0000"></div>
+          <div class="field"><label>Phone number <span class="opt">(optional)</span></label><input id="sf-phone" type="tel" placeholder="+1 (555) 000-0000"></div>
         </div>
         <hr class="fsep"><div class="fsec">Academic level</div>
         <div class="frow one">
           <div class="field"><label>Current level</label>
-            <select><option value="" disabled selected>— Select your level —</option><option>Elementary School</option><option>Middle School</option><option>High School</option><option>Undergraduate</option><option>Postgraduate</option><option>Professional / Adult Learner</option></select>
+            <select id="sf-level"><option value="" disabled selected>— Select your level —</option><option>Elementary School</option><option>Middle School</option><option>High School</option><option>Undergraduate</option><option>Postgraduate</option><option>Professional / Adult Learner</option></select>
           </div>
         </div>
         <div class="tos-row">
           <input type="checkbox" id="tos-s">
           <label for="tos-s">I agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a>.</label>
         </div>
-        <button class="btn-submit">Register</button>
+        <button class="btn-submit" onclick="submitStudentForm(event)">Register</button>
         <div class="login-hint">Already a user? <a href="#">Login</a></div>
       </div>
     </div>
@@ -445,7 +445,38 @@ footer { background: #0d1b3e; color: rgba(255,255,255,0.82); margin-top: 3rem; }
     };
 
     localStorage.setItem('seek2lrn_tutor', JSON.stringify(profile));
-    window.location.href = 'dashboard.html';
+    window.location.href = 'dashboard.html?welcome=1';
+  }
+
+  function submitStudentForm(e) {
+    e.preventDefault();
+    var first = document.getElementById('sf-first').value.trim();
+    var last  = document.getElementById('sf-last').value.trim();
+    var email = document.getElementById('sf-email').value.trim();
+    var phone = document.getElementById('sf-phone').value.trim();
+    var level = document.getElementById('sf-level').value;
+    var tos   = document.getElementById('tos-s').checked;
+
+    if (!first || !last || !email || !level) {
+      alert('Please fill in all required fields.'); return;
+    }
+    if (!tos) {
+      alert('Please accept the Terms & Conditions.'); return;
+    }
+
+    var profile = {
+      firstName : first,
+      lastName  : last,
+      fullName  : first + ' ' + last,
+      initials  : (first[0] + last[0]).toUpperCase(),
+      email     : email,
+      phone     : phone,
+      level     : level,
+      registered: new Date().toISOString()
+    };
+
+    localStorage.setItem('seek2lrn_student', JSON.stringify(profile));
+    window.location.href = 'dashboard.html?welcome=1';
   }
 </script>
 </html>
