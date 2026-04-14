@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEEK2LRN — Connect · Learn · Teach · Passion</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; color: #222; overflow-x: hidden; }
+
+/* NAV */
+nav { background: #fff; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 58px; z-index: 100; position: relative; }
+.nav-logo-main { font-size: 1.45rem; font-weight: 800; color: #1558d6; letter-spacing: -1px; line-height: 1; }
+.nav-logo-main span { color: #111; }
+.nav-logo-sub { font-size: 0.47rem; letter-spacing: 2.5px; color: #aaa; text-transform: uppercase; }
+.nav-links { display: flex; gap: 1.8rem; list-style: none; }
+.nav-links a { text-decoration: none; font-size: 0.88rem; color: #374151; }
+.nav-links a:hover, .nav-links a.active { color: #1558d6; }
+.nav-links a.active { border-bottom: 2px solid #1558d6; padding-bottom: 2px; }
+.nav-actions { display: flex; gap: 0.5rem; }
+.btn-reg { background: #1558d6; color: #fff; border: none; padding: 0.42rem 1.1rem; border-radius: 5px; font-size: 0.84rem; cursor: pointer; font-family: inherit; }
+.btn-login { background: transparent; color: #1558d6; border: 1.5px solid #1558d6; padding: 0.38rem 1.1rem; border-radius: 5px; font-size: 0.84rem; cursor: pointer; font-family: inherit; }
+.nav-social { display: flex; flex-direction: column; gap: 4px; position: fixed; left: 12px; top: 50%; transform: translateY(-50%); z-index: 99; }
+.nav-social a { width: 30px; height: 30px; border-radius: 50%; background: #1558d6; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.72rem; text-decoration: none; }
+.nav-social a:hover { background: #0e3fa3; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0a3d8f 0%, #1558d6 35%, #0e9aad 70%, #0a7a8a 100%);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem 4rem; gap: 3rem; min-height: 520px;
+}
+.hero-shape-1 { position: absolute; right: -60px; top: -60px; width: 200px; height: 320px; background: rgba(255,255,255,0.07); transform: rotate(30deg); }
+.hero-shape-2 { position: absolute; right: 60px; bottom: -80px; width: 160px; height: 260px; background: rgba(255,255,255,0.05); transform: rotate(30deg); }
+.hero-shape-3 { position: absolute; right: 120px; top: 30px; width: 80px; height: 200px; background: rgba(255,255,255,0.06); transform: rotate(30deg); }
+
+/* hero default */
+.hero-left { z-index: 2; flex: 1; max-width: 520px; }
+.hero-right { z-index: 2; flex-shrink: 0; }
+.hero-heading { font-size: 2.4rem; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.25em; }
+.hero-heading .static-txt { white-space: nowrap; }
+.word-clip { display: inline-block; overflow: hidden; vertical-align: top; }
+.word-track { display: flex; flex-direction: column; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
+.word-track .word { display: block; white-space: nowrap; line-height: 1.15; color: #fff; }
+.line-clip { overflow: hidden; font-size: 0.92rem; margin-bottom: 1.75rem; }
+.line-track { display: flex; flex-direction: column; transition: transform 0.55s cubic-bezier(0.4,0,0.2,1); }
+.line-track .line { display: block; white-space: nowrap; line-height: 1.6; color: rgba(255,255,255,0.88); }
+.hero-ctas { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+.btn-hero { padding: 0.6rem 1.6rem; border-radius: 6px; font-family: inherit; font-size: 0.88rem; font-weight: 700; cursor: pointer; border: 2px solid #fff; transition: all 0.18s; }
+.btn-hero-solid { background: #1558d6; color: #fff; }
+.btn-hero-solid:hover { background: #0e3fa3; }
+.btn-hero-outline { background: transparent; color: #fff; }
+.btn-hero-outline:hover { background: rgba(255,255,255,0.12); }
+
+/* hero image */
+.hero-img-shapes { position: relative; width: 380px; height: 420px; }
+.shape-rect-1 { position: absolute; top: 0; left: 20px; width: 300px; height: 280px; background: rgba(200,220,255,0.22); border-radius: 4px; }
+.shape-rect-2 { position: absolute; bottom: 0; right: 10px; width: 260px; height: 260px; background: rgba(200,220,255,0.18); border-radius: 4px; }
+.shape-circle { position: absolute; top: 8px; right: 8px; width: 130px; height: 130px; background: #1e6fd4; border-radius: 50%; opacity: 0.85; }
+.shape-circle-2 { position: absolute; bottom: 12px; left: 8px; width: 100px; height: 100px; background: rgba(150,200,255,0.3); border-radius: 50%; }
+.hero-girl { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 400px; width: 360px; object-fit: cover; object-position: top center; z-index: 3; border-radius: 8px; }
+
+/* FORM CARD inside hero */
+.hero-form-wrap { display: none; z-index: 2; width: 100%; max-width: 960px; }
+.hero-form-wrap.active { display: flex; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+.form-card { display: flex; width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.28); }
+
+.fc-photo { width: 380px; flex-shrink: 0; position: relative; overflow: hidden; min-height: 520px; }
+.fc-photo img { width: 100%; height: 100%; object-fit: contain; object-position: center center; display: block; background: #0a1a3b; }
+.fc-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,20,60,0.45) 0%, rgba(5,20,60,0.1) 55%); display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; }
+.fc-quote { font-size: 0.85rem; font-weight: 700; color: #fff; line-height: 1.4; margin-bottom: 0.25rem; }
+.fc-attr  { font-size: 0.68rem; color: rgba(255,255,255,0.7); }
+
+.fc-body { flex: 1; background: #fff; padding: 1.75rem 2rem 1.75rem; display: flex; flex-direction: column; }
+.fc-back { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; color: #1558d6; cursor: pointer; background: none; border: none; font-family: inherit; margin-bottom: 1rem; padding: 0; }
+.fc-back:hover { text-decoration: underline; }
+.fc-body h2 { font-size: 1.05rem; font-weight: 700; color: #0d1b3e; margin-bottom: 0.15rem; }
+.fc-sub { font-size: 0.78rem; color: #1558d6; margin-bottom: 1.2rem; }
+
+.frow { display: grid; gap: 0.75rem; margin-bottom: 0.75rem; }
+.frow.two { grid-template-columns: 1fr 1fr; }
+.frow.one { grid-template-columns: 1fr; }
+.field label { display: block; font-size: 0.73rem; font-weight: 600; color: #374151; margin-bottom: 0.22rem; }
+.field label .opt { font-weight: 400; color: #9ca3af; }
+.field input, .field select { width: 100%; padding: 0.48rem 0.75rem; border: 1.5px solid #d1d5db; border-radius: 5px; font-family: inherit; font-size: 0.82rem; color: #111; outline: none; transition: border-color 0.2s; background: #fff; }
+.field input:focus, .field select:focus { border-color: #1558d6; }
+.field input::placeholder { color: #c0c5ce; }
+
+.fsep { border: none; border-top: 1px solid #e5e7eb; margin: 0.85rem 0 0.7rem; }
+.fsec { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #9ca3af; margin-bottom: 0.65rem; }
+
+.tags-wrap { border: 1.5px solid #d1d5db; border-radius: 5px; padding: 0.28rem 0.6rem; display: flex; flex-wrap: wrap; gap: 0.28rem; cursor: text; min-height: 36px; transition: border-color 0.2s; }
+.tags-wrap:focus-within { border-color: #1558d6; }
+.tag { background: #dbeafe; color: #1558d6; font-size: 0.71rem; font-weight: 600; padding: 0.14rem 0.44rem; border-radius: 12px; display: flex; align-items: center; gap: 0.18rem; }
+.tag button { background: none; border: none; cursor: pointer; color: #1558d6; font-size: 0.9rem; padding: 0; line-height: 1; }
+.tags-input-bare { border: none !important; outline: none !important; padding: 0.08rem 0 !important; font-size: 0.82rem; flex: 1; min-width: 80px; background: transparent; font-family: inherit; }
+.tags-hint { font-size: 0.66rem; color: #9ca3af; margin-top: 0.18rem; }
+
+.tos-row { display: flex; align-items: flex-start; gap: 0.45rem; margin: 0.85rem 0 1rem; }
+.tos-row input[type=checkbox] { margin-top: 2px; accent-color: #1558d6; cursor: pointer; width: 13px; height: 13px; flex-shrink: 0; }
+.tos-row label { font-size: 0.73rem; color: #6b7280; line-height: 1.5; cursor: pointer; }
+.tos-row a { color: #1558d6; text-decoration: none; }
+.btn-submit { width: 100%; padding: 0.62rem; background: #1558d6; color: #fff; border: none; border-radius: 6px; font-family: inherit; font-size: 0.86rem; font-weight: 600; cursor: pointer; }
+.btn-submit:hover { background: #1245b0; }
+.login-hint { text-align: center; margin-top: 0.7rem; font-size: 0.75rem; color: #6b7280; }
+.login-hint a { color: #1558d6; text-decoration: none; font-weight: 600; }
+
+/* STATS */
+.stats-bar { background: #1f2f9e; display: flex; justify-content: center; margin: 0 3.5rem; border-radius: 0 0 10px 10px; }
+.stat-item { flex: 1; max-width: 280px; display: flex; flex-direction: column; align-items: center; padding: 1.75rem 1rem; border-right: 1px solid rgba(255,255,255,0.1); }
+.stat-item:last-child { border-right: none; }
+.stat-icon { font-size: 1.5rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+.stat-num { font-size: 1.4rem; font-weight: 800; color: #fff; }
+.stat-label { font-size: 0.77rem; color: rgba(255,255,255,0.55); margin-top: 0.25rem; }
+
+/* FLOW */
+.section-flow { padding: 4rem 3.5rem 3rem; text-align: center; }
+.pill-label { display: inline-block; background: #1558d6; color: #fff; font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.35rem 1.1rem; border-radius: 20px; margin-bottom: 1rem; }
+.section-flow h2 { font-size: 1.5rem; font-weight: 700; color: #111; margin-bottom: 2.5rem; }
+.flow-steps { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+.flow-step { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; width: 140px; }
+.flow-icon-wrap { width: 72px; height: 72px; border-radius: 50%; background: #1558d6; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; position: relative; }
+.flow-icon-badge { position: absolute; bottom: -4px; right: -4px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #fff; font-weight: 700; border: 2px solid #fff; }
+.flow-icon-badge.green { background: #22c55e; }
+.flow-icon-badge.yellow { background: #f59e0b; }
+.flow-icon-badge.blue { background: #3b82f6; }
+.flow-step-label { font-size: 0.8rem; color: #374151; font-weight: 500; text-align: center; }
+.flow-arrow { border-top: 2px dashed #d1d5db; width: 50px; height: 0; margin: 0 0.25rem 20px; flex-shrink: 0; }
+
+/* FOOTER */
+footer { background: #0d1b3e; color: rgba(255,255,255,0.82); margin-top: 3rem; }
+.footer-subscribe { background: #1f2f9e; padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+.footer-subscribe h3 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.2rem; }
+.footer-subscribe p { font-size: 0.79rem; color: rgba(255,255,255,0.75); }
+.sub-form { display: flex; gap: 0.4rem; }
+.sub-form input { padding: 0.52rem 1rem; border-radius: 5px; border: none; font-family: inherit; font-size: 0.84rem; width: 230px; outline: none; }
+.sub-form button { padding: 0.52rem 1.2rem; background: #f59e0b; color: #1a1a2e; border: none; border-radius: 5px; font-family: inherit; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+.footer-main { display: grid; grid-template-columns: 2fr 1.5fr 1.5fr 2fr; gap: 2.5rem; padding: 3rem 4rem; }
+.footer-logo-text { font-size: 1.35rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+.footer-logo-text .accent { color: #3b82f6; }
+.footer-logo-sub { font-size: 0.48rem; letter-spacing: 2px; color: rgba(255,255,255,0.35); text-transform: uppercase; display: block; margin-top: -2px; }
+.footer-social { display: flex; gap: 0.55rem; margin-top: 1rem; }
+.soc-icon { width: 29px; height: 29px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; color: rgba(255,255,255,0.6); text-decoration: none; }
+.soc-icon:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.footer-col h4 { font-size: 0.76rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 1rem; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.5rem; }
+.footer-col ul li a { font-size: 0.82rem; color: rgba(255,255,255,0.7); text-decoration: none; }
+.footer-col ul li a:hover { color: #fff; }
+.contact-block { margin-bottom: 0.75rem; }
+.contact-block .clabel { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(255,255,255,0.34); margin-bottom: 0.15rem; }
+.contact-block p { font-size: 0.82rem; color: rgba(255,255,255,0.72); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.09); text-align: center; padding: 1rem; font-size: 0.76rem; color: rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+
+<div class="nav-social">
+  <a href="#">ig</a><a href="#">f</a><a href="#">in</a><a href="#">𝕏</a>
+</div>
+
+<nav>
+  <div>
+    <div class="nav-logo-main">SEEK<span>2</span>LRN</div>
+    <div class="nav-logo-sub">Connect · Learn · Teach · Passion</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" class="active" onclick="showHero();return false;">Home</a></li>
+    <li><a href="#">Find a Tutor</a></li>
+    <li><a href="#">Become a Tutor</a></li>
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-reg">Register</button>
+    <button class="btn-login">Log In</button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="hero">
+  <div class="hero-shape-1"></div>
+  <div class="hero-shape-2"></div>
+  <div class="hero-shape-3"></div>
+
+  <!-- DEFAULT -->
+  <div id="heroDefault" style="display:flex; flex:1; max-width:520px; z-index:2; flex-direction:column;">
+    <h1 class="hero-heading">
+      <span class="static-txt">What Do You Want to</span>
+      <span class="word-clip" id="wordClip">
+        <span class="word-track" id="wordTrack">
+          <span class="word">Learn?</span>
+          <span class="word">Teach?</span>
+        </span>
+      </span>
+    </h1>
+    <div class="line-clip" id="lineClip">
+      <div class="line-track" id="lineTrack">
+        <span class="line">Learn Anything. From Anyone. From Anywhere.</span>
+        <span class="line">Teach Anything. To Anyone. From Anywhere.</span>
+      </div>
+    </div>
+    <div class="hero-ctas">
+      <button class="btn-hero btn-hero-solid"   onclick="showForm('student')">I'm a Student</button>
+      <button class="btn-hero btn-hero-outline"  onclick="showForm('tutor')">I'm an Educator</button>
+    </div>
+  </div>
+
+  <div id="heroImage" style="z-index:2; flex-shrink:0;">
+    <div class="hero-img-shapes">
+      <div class="shape-rect-1"></div><div class="shape-circle"></div>
+      <div class="shape-rect-2"></div><div class="shape-circle-2"></div>
+      <img class="hero-girl" src="kyle-gregory-devaras-6RTM8EsD1T8-unsplash.jpg" alt="Student" onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <!-- STUDENT FORM -->
+  <div class="hero-form-wrap" id="formStudent">
+    <div class="form-card">
+      <div class="fc-photo">
+        <img src="microsoft-copilot-pqMPnPo4_ZA-unsplash.jpg" alt="Student">
+        <div class="fc-overlay">
+          <div class="fc-quote">"Education is the most powerful weapon you can use to change the world."</div>
+          <div class="fc-attr">— Nelson Mandela</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <button class="fc-back" onclick="showHero()">← Back</button>
+        <h2>Create your student account</h2>
+        <p class="fc-sub">Register as a student</p>
+        <div class="frow two">
+          <div class="field"><label>First name</label><input type="text" placeholder="Jane"></div>
+          <div class="field"><label>Last name</label><input type="text" placeholder="Doe"></div>
+        </div>
+        <div class="frow one">
+          <div class="field"><label>Email address</label><input type="email" placeholder="jane.doe@email.com"></div>
+        </div>
+        <div class="frow one">
+          <div class="field"><label>Phone number <span class="opt">(optional)</span></label><input type="tel" placeholder="+1 (555) 000-0000"></div>
+        </div>
+        <hr class="fsep"><div class="fsec">Academic level</div>
+        <div class="frow one">
+          <div class="field"><label>Current level</label>
+            <select><option value="" disabled selected>— Select your level —</option><option>Elementary School</option><option>Middle School</option><option>High School</option><option>Undergraduate</option><option>Postgraduate</option><option>Professional / Adult Learner</option></select>
+          </div>
+        </div>
+        <div class="tos-row">
+          <input type="checkbox" id="tos-s">
+          <label for="tos-s">I agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a>.</label>
+        </div>
+        <button class="btn-submit">Register</button>
+        <div class="login-hint">Already a user? <a href="#">Login</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATOR FORM -->
+  <div class="hero-form-wrap" id="formTutor">
+    <div class="form-card">
+      <div class="fc-photo">
+        <img src="chris-montgomery-smgTvepind4-unsplash.jpg" alt="Educator">
+        <div class="fc-overlay">
+          <div class="fc-quote">"The art of teaching is the art of assisting discovery."</div>
+          <div class="fc-attr">— Mark Van Doren</div>
+        </div>
+      </div>
+      <div class="fc-body">
+        <button class="fc-back" onclick="showHero()">← Back</button>
+        <h2>Join as an educator</h2>
+        <p class="fc-sub">Register as a tutor</p>
+        <div class="frow two">
+          <div class="field"><label>First name</label><input id="tf-first" type="text" placeholder="John"></div>
+          <div class="field"><label>Last name</label><input id="tf-last" type="text" placeholder="Smith"></div>
+        </div>
+        <div class="frow one">
+          <div class="field"><label>Email address</label><input id="tf-email" type="email" placeholder="john.smith@email.com"></div>
+        </div>
+        <div class="frow one">
+          <div class="field"><label>Phone number <span class="opt">(optional)</span></label><input id="tf-phone" type="tel" placeholder="+1 (555) 000-0000"></div>
+        </div>
+        <hr class="fsep"><div class="fsec">Teaching profile</div>
+        <div class="frow one">
+          <div class="field">
+            <label>Subjects you teach</label>
+            <div class="tags-wrap" id="tw" onclick="document.getElementById('ti').focus()">
+              <input id="ti" class="tags-input-bare" placeholder="e.g. Mathematics, Physics…" onkeydown="tagKey(event)">
+            </div>
+            <div class="tags-hint">Press Enter or comma after each subject.</div>
+          </div>
+        </div>
+        <div class="frow one">
+          <div class="field"><label>Level(s) you teach</label>
+            <select id="tf-level"><option value="" disabled selected>— Select the highest level —</option><option>Elementary School</option><option>Middle School</option><option>High School</option><option>Undergraduate</option><option>Postgraduate</option><option>All levels</option></select>
+          </div>
+        </div>
+        <div class="tos-row">
+          <input type="checkbox" id="tos-t">
+          <label for="tos-t">I agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a>.</label>
+        </div>
+        <button class="btn-submit" onclick="submitTutorForm(event)">Register</button>
+        <div class="login-hint">Already a user? <a href="#">Login</a></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-icon">👍</div><div class="stat-num">10+</div><div class="stat-label">Courses</div></div>
+  <div class="stat-item"><div class="stat-icon">👥</div><div class="stat-num">100+</div><div class="stat-label">Students</div></div>
+  <div class="stat-item"><div class="stat-icon">📍</div><div class="stat-num">50+</div><div class="stat-label">Classes</div></div>
+</div>
+
+<!-- FLOW -->
+<div class="section-flow">
+  <div class="pill-label">TUTORING FLOW</div>
+  <h2>Learn, Your Way</h2>
+  <div class="flow-steps">
+    <div class="flow-step"><div class="flow-icon-wrap">🔍<div class="flow-icon-badge green">✓</div></div><div class="flow-step-label">Find a Tutor</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><div class="flow-icon-wrap">📅<div class="flow-icon-badge yellow">!</div></div><div class="flow-step-label">Book a Session</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><div class="flow-icon-wrap">🎓<div class="flow-icon-badge blue">★</div></div><div class="flow-step-label">Start Learning</div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-subscribe">
+    <div><h3>Subscribe to get latest updates</h3><p>Be the first to know about new features</p></div>
+    <div class="sub-form"><input type="email" placeholder="Enter your email"><button>Subscribe</button></div>
+  </div>
+  <div class="footer-main">
+    <div>
+      <div class="footer-logo-text">SEEK<span class="accent">2</span>LRN<span class="footer-logo-sub">Connect · Learn · Teach · Passion</span></div>
+      <div class="footer-social"><a class="soc-icon" href="#">ig</a><a class="soc-icon" href="#">f</a><a class="soc-icon" href="#">in</a><a class="soc-icon" href="#">𝕏</a></div>
+    </div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="#">Home</a></li><li><a href="#">About Us</a></li><li><a href="#">Find a Tutor</a></li><li><a href="#">Become a Tutor</a></li><li><a href="#">Blog</a></li></ul></div>
+    <div class="footer-col"><h4>Information</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms &amp; Conditions</a></li><li><a href="#">Feedback</a></li></ul></div>
+    <div class="footer-col"><h4>Contact Us</h4>
+      <div class="contact-block"><div class="clabel">Email</div><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9deef8f8f6aff1eff3fcededf4f3fbf2ddfaf0fcf4f1b3fef2f0">[email&#160;protected]</a></p></div>
+      <div class="contact-block"><div class="clabel">Contact</div><p>+1(281) 701-5786</p></div>
+    </div>
+  </div>
+  <div class="footer-bottom">© SEEK2LRN All Rights Reserved.</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function showForm(type) {
+    document.getElementById('heroDefault').style.display = 'none';
+    document.getElementById('heroImage').style.display   = 'none';
+    document.getElementById('formStudent').classList.remove('active');
+    document.getElementById('formTutor').classList.remove('active');
+    var target = type === 'student' ? 'formStudent' : 'formTutor';
+    document.getElementById(target).classList.add('active');
+  }
+
+  function showHero() {
+    document.getElementById('heroDefault').style.display = 'flex';
+    document.getElementById('heroImage').style.display   = '';
+    document.getElementById('formStudent').classList.remove('active');
+    document.getElementById('formTutor').classList.remove('active');
+  }
+
+  // Conveyor
+  (function() {
+    var wordTrack = document.getElementById('wordTrack');
+    var lineTrack = document.getElementById('lineTrack');
+    var wordClip  = document.getElementById('wordClip');
+    var lineClip  = document.getElementById('lineClip');
+    var current   = 0;
+
+    window.addEventListener('load', function() {
+      var wordH = wordTrack.children[0].offsetHeight;
+      var lineH = lineTrack.children[0].offsetHeight;
+      var wordW = Math.max(wordTrack.children[0].offsetWidth, wordTrack.children[1].offsetWidth);
+      wordClip.style.height = wordH + 'px';
+      wordClip.style.width  = wordW + 'px';
+      lineClip.style.height = lineH + 'px';
+
+      setInterval(function() {
+        current = current === 0 ? 1 : 0;
+        wordTrack.style.transform = 'translateY(-' + (current * wordH) + 'px)';
+        lineTrack.style.transform = 'translateY(-' + (current * lineH) + 'px)';
+      }, 3000);
+    });
+  })();
+
+  // Subject tags
+  var tags = [];
+  function tagKey(e) {
+    var inp = document.getElementById('ti');
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      var v = inp.value.replace(',','').trim();
+      if (v && tags.indexOf(v) === -1) { tags.push(v); renderTags(); }
+      inp.value = '';
+    } else if (e.key === 'Backspace' && inp.value === '' && tags.length) {
+      tags.pop(); renderTags();
+    }
+  }
+  function removeTag(i) { tags.splice(i,1); renderTags(); }
+  function renderTags() {
+    var w = document.getElementById('tw');
+    w.querySelectorAll('.tag').forEach(function(t){ t.remove(); });
+    var inp = document.getElementById('ti');
+    tags.forEach(function(tag, i) {
+      var el = document.createElement('span');
+      el.className = 'tag';
+      el.innerHTML = tag + ' <span onclick="removeTag(' + i + ')" style="cursor:pointer;margin-left:4px;">×</span>';
+      w.insertBefore(el, inp);
+    });
+  }
+
+  function submitTutorForm(e) {
+    e.preventDefault();
+    var first = document.getElementById('tf-first').value.trim();
+    var last  = document.getElementById('tf-last').value.trim();
+    var email = document.getElementById('tf-email').value.trim();
+    var phone = document.getElementById('tf-phone').value.trim();
+    var level = document.getElementById('tf-level').value;
+    var tos   = document.getElementById('tos-t').checked;
+
+    if (!first || !last || !email || !level) {
+      alert('Please fill in all required fields.'); return;
+    }
+    if (!tos) {
+      alert('Please accept the Terms & Conditions.'); return;
+    }
+
+    var profile = {
+      firstName : first,
+      lastName  : last,
+      fullName  : first + ' ' + last,
+      initials  : (first[0] + last[0]).toUpperCase(),
+      email     : email,
+      phone     : phone,
+      subjects  : tags.slice(),
+      level     : level,
+      registered: new Date().toISOString()
+    };
+
+    localStorage.setItem('seek2lrn_tutor', JSON.stringify(profile));
+    window.location.href = 'dashboard.html';
+  }
+</script>
+</html>
