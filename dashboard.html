@@ -24,8 +24,8 @@
   --divider:    #e8edf7;
   --ink1:       #0d1b3e;
   --ink2:       #2e4470;
-  --ink3:       #7a8fba;
-  --ink4:       #bdc8e0;
+  --ink3:       #4f6390;
+  --ink4:       #8b9bbd;
   --orange:     #d4570a;
   --orange-mid: #e8732e;
   --orange-pale:#fce8da;
@@ -95,7 +95,7 @@ body {
 .card {
   background: transparent;
   border: none;
-  padding: 1.4rem 1.6rem;
+  padding: 1.7rem 1.9rem;
   position: relative;
 }
 
@@ -129,9 +129,64 @@ body {
 .top-grid > * + *::before {
   content: '';
   position: absolute;
-  top: 4%; bottom: 4%; left: 0; width: 2px;
+  top: 4%; bottom: 4%; left: -0.42rem; width: 2px;
   background: linear-gradient(to bottom, transparent 0%, var(--div-color) 5%, var(--div-color) 95%, transparent 100%);
 }
+
+/* Right stack: 2x2 layout sitting next to Col1 */
+.right-stack { display: flex; flex-direction: column; gap: 0.85rem; }
+.rstack-row1 { display: flex; flex-direction: column; gap: 0.85rem; position: relative; }
+.rstack-row2 { display: grid; grid-template-columns: 1fr 1.9fr; gap: 0.85rem; position: relative; }
+.rstack-row2 > * + *::before {
+  content: '';
+  position: absolute;
+  top: 6%; bottom: 6%; left: -0.42rem; width: 2px;
+  background: linear-gradient(to bottom, transparent 0%, var(--div-color) 5%, var(--div-color) 95%, transparent 100%);
+}
+.rstack-row1 > * + *::before {
+  content: ''; position: absolute;
+  left: 4%; right: 4%; top: -0.42rem; height: 2px;
+  background: linear-gradient(to right, transparent 0%, var(--div-color) 5%, var(--div-color) 95%, transparent 100%);
+}
+.rstack-row1 > * + *, .rstack-row2 > * + * { position: relative; }
+.chart-h-big { height: 220px; position: relative; }
+.right-stack > * + *::before {
+  content: ''; position: absolute;
+  left: 4%; right: 4%; top: -0.42rem; height: 2px;
+  background: linear-gradient(to right, transparent 0%, var(--div-color) 5%, var(--div-color) 95%, transparent 100%);
+}
+.right-stack > * + * { position: relative; }
+
+/* activity list (pending HW, content review, upcoming tests) */
+.act-list { display: flex; flex-direction: column; }
+.act {
+  display: flex; align-items: baseline; gap: 0.4rem;
+  padding: 0.32rem 0;
+  background: linear-gradient(to right, transparent 0%, var(--div-color) 10%, var(--div-color) 90%, transparent 100%) bottom/100% 1px no-repeat;
+}
+.act:last-child { background: none; }
+.act-idx { font-family: var(--mono); font-size: 0.72rem; color: var(--ink3); width: 16px; flex-shrink: 0; }
+.act-name { font-size: 0.78rem; color: var(--navy); font-weight: 700; flex: 0 0 auto; min-width: 70px; }
+.act-topic { font-size: 0.76rem; color: var(--ink2); flex: 1; }
+.act-date { font-size: 0.68rem; color: var(--ink3); flex-shrink: 0; }
+
+/* tutoring requests list */
+.treq-list { display: flex; flex-direction: column; }
+.treq {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem;
+  padding: 0.42rem 0;
+  background: linear-gradient(to right, transparent 0%, var(--div-color) 8%, var(--div-color) 92%, transparent 100%) bottom/100% 1px no-repeat;
+}
+.treq:last-child { background: none; }
+.treq-n { font-family: var(--mono); font-size: 0.74rem; color: var(--ink3); width: 18px; flex-shrink: 0; }
+.treq-name { font-size: 0.8rem; color: var(--navy); font-weight: 700; }
+.treq-type { font-size: 0.62rem; padding: 0.08rem 0.34rem; font-weight: 700; letter-spacing: 0.4px; }
+.treq-type.on1 { background: var(--blue-ghost); color: var(--blue-mid); }
+.treq-type.grp { background: var(--orange-pale); color: var(--orange); }
+.treq-group { font-size: 0.7rem; color: var(--ink2); }
+.treq-subj { font-size: 0.7rem; color: var(--ink3); }
+.treq-date { font-size: 0.68rem; color: var(--ink3); }
+.treq .apbtn { padding: 0.22rem 0.55rem; font-size: 0.7rem; margin-left: auto; }
 
 /* bot-grid: explicit separator divs */
 .bot-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
@@ -323,8 +378,15 @@ body {
 }
 .shdr a { font-size: 0.78rem; color: var(--orange); text-decoration: none; font-weight: 700; }
 
-/* ── TOP 3-COL GRID ── */
-.top-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 0.85rem; }
+/* ── TOP 2-COL GRID ── (col1: activities stack, col2: right-stack 2x2) */
+.top-grid { display: grid; grid-template-columns: 1fr 1.36fr; gap: 1.1rem; align-items: stretch; }
+.top-grid > * { min-height: 0; }
+.top-grid > :first-child { display: flex; flex-direction: column; gap: 1.1rem; }
+.top-grid > :first-child > .card.grow { flex: 1 1 auto; }
+.right-stack { gap: 1.1rem !important; }
+.rstack-row1 { gap: 1.1rem !important; }
+.rstack-row2 { gap: 1.1rem !important; }
+.main { gap: 1.3rem !important; padding: 1.4rem !important; }
 
 /* EARNINGS */
 .earn-stats { display: flex; gap: 0.5rem; margin: 0.5rem 0 0.4rem; }
@@ -357,20 +419,30 @@ body {
 .er-amt  { font-family: var(--mono); font-size: 0.85rem; font-weight: 600; color: var(--navy); }
 
 /* SCHEDULE */
-.sched-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 1px; margin-top: 0.3rem; background: var(--navy); border: 1px solid var(--navy); }
-.dcol { background: var(--page); padding: 0.25rem 0.18rem; }
-.dcol .dlbl { font-size: 0.52rem; font-weight: 700; color: var(--ink3); text-transform: uppercase; text-align: center; margin-bottom: 0.1rem; }
-.dcol .dnum { font-size: 0.62rem; font-weight: 700; color: var(--ink2); text-align: center; margin-bottom: 0.12rem; }
+.sched-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 1px; margin-top: 0.5rem; background: var(--navy); border: 1px solid var(--navy); }
+.dcol { background: var(--page); padding: 0.5rem 0.35rem; }
+.dcol .dlbl { font-size: 0.66rem; font-weight: 700; color: var(--ink3); text-transform: uppercase; text-align: center; margin-bottom: 0.22rem; letter-spacing: 0.4px; }
+.dcol .dnum { font-size: 0.82rem; font-weight: 700; color: var(--ink2); text-align: center; margin-bottom: 0.28rem; }
 .dcol .dnum.today {
   background: var(--orange); color: #fff;
-  width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;
-  font-size: 0.55rem; margin: 0 auto 0.12rem;
+  width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+  font-size: 0.74rem; margin: 0 auto 0.28rem;
 }
-.tb { padding: 0.18rem 0.22rem; margin-bottom: 0.12rem; font-size: 0.48rem; line-height: 1.3; border-left: 2px solid; }
-.tb b { display: block; font-weight: 700; font-size: 0.46rem; }
+.tb { padding: 0.32rem 0.42rem 0.32rem 0.5rem; margin-bottom: 0.25rem; font-size: 0.66rem; line-height: 1.3; border-left: 2px solid; display: block; text-decoration: none; cursor: pointer; position: relative; transition: transform 120ms ease-out, filter 120ms ease-out; }
+.tb:hover { transform: translateX(1px); filter: brightness(1.06); }
+.tb::after { content: '▶'; position: absolute; top: 4px; right: 5px; font-size: 0.56rem; opacity: 0.55; }
+.tb b { display: block; font-weight: 700; font-size: 0.64rem; margin-bottom: 0.1rem; }
 .tb.bl { background: var(--blue-ghost); color: var(--blue-mid); border-color: var(--blue-mid); }
 .tb.tl { background: var(--blue-ghost); color: var(--blue); border-color: var(--blue-light); }
 .tb.pu { background: var(--orange-pale); color: var(--orange); border-color: var(--orange-mid); }
+
+/* today's time-block video links */
+.tbx { height: 24px; display: block; text-decoration: none; cursor: pointer; position: relative; transition: filter 120ms ease-out; }
+.tbx:hover { filter: brightness(1.08); }
+.tbx.bl { background: var(--blue-ghost); border-left: 2px solid var(--blue-mid); }
+.tbx.pu { background: var(--orange-pale); border-left: 2px solid var(--orange); }
+.tbx.empty { background: var(--divider); cursor: default; }
+.tbx:not(.empty)::after { content: '▶'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 0.55rem; color: var(--ink2); opacity: 0.5; }
 
 .due-row { display: flex; gap: 0.5rem; margin-top: 0.55rem; }
 .due-it {
@@ -400,11 +472,11 @@ body {
 }
 .apbtn:hover { background: var(--orange); }
 
-.rbar-row { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.24rem; }
-.rbar-lbl { font-size: 0.78rem; color: var(--ink2); width: 55px; }
-.rbar-wrap { flex: 1; height: 8px; background: var(--bar-track); overflow: hidden; }
+.rbar-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.35rem; }
+.rbar-lbl { font-size: 0.82rem; color: var(--ink2); width: 55px; }
+.rbar-wrap { flex: 1; height: 11px; background: var(--bar-track); overflow: hidden; }
 .rbar { height: 100%; background: var(--blue-mid); }
-.rbar-pct { font-size: 0.73rem; color: var(--ink3); width: 24px; text-align: right; }
+.rbar-pct { font-size: 0.78rem; color: var(--ink2); width: 32px; text-align: right; font-weight: 600; }
 
 /* UPLOADS */
 .upl { display: flex; align-items: center; gap: 0.5rem; padding: 0.36rem 0; border-bottom: none; box-shadow: 0 1px 0 0 transparent; background: linear-gradient(to right, transparent 0%, var(--div-color) 10%, var(--div-color) 90%, transparent 100%) bottom/100% 1px no-repeat; }
@@ -735,8 +807,8 @@ body {
     <div class="top-grid">
 
       <!-- Col 1: Greeting + Quote + Schedule (tall) -->
-      <div style="display:flex;flex-direction:column;gap:0.85rem;">
-        <div class="card" id="spot-name" style="flex:1;">
+      <div>
+        <div class="card" id="spot-name">
           <div id="greetBlock">
             <div style="font-size:1.5rem;margin-bottom:0.3rem;" id="timeEmoji">🌅</div>
             <div style="font-family:var(--sans);font-size:1.15rem;font-weight:700;color:var(--navy);line-height:1.2;" id="greetName">Good morning, Koustubh.</div>
@@ -747,127 +819,170 @@ body {
           <div style="font-size:0.7rem;color:var(--ink3);margin-top:0.3rem;">— William Arthur Ward</div>
         </div>
 
-        <div class="card" id="spot-schedule" style="flex:2;">
+        <div class="card" id="spot-schedule">
           <div class="shdr"><h2>My Schedule</h2><a href="#">Full calendar →</a></div>
 
-          <div style="font-size:0.46rem;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:0.14rem;">Apr 7–13 · prev</div>
+          <!-- Row 1: next 7 days overview -->
+          <div style="font-size:0.68rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1px;margin:0.5rem 0 0.3rem;">Next 7 days · Apr 15–21</div>
           <div class="sched-grid">
-            <div class="dcol"><div class="dlbl">Mon</div><div class="dnum">7</div><div class="tb bl"><b>9:00</b>Priya · Phys</div></div>
-            <div class="dcol"><div class="dlbl">Tue</div><div class="dnum">8</div><div class="tb tl"><b>10:00</b>Rahul · Math</div></div>
-            <div class="dcol"><div class="dlbl">Wed</div><div class="dnum">9</div><div class="tb bl"><b>11:00</b>Dev · Phys</div></div>
-            <div class="dcol"><div class="dlbl">Thu</div><div class="dnum">10</div><div class="tb pu"><b>9:30</b>Ayesha · Math</div></div>
-            <div class="dcol"><div class="dlbl">Fri</div><div class="dnum">11</div><div class="tb tl"><b>14:00</b>Sneha · Math</div><div class="tb bl"><b>16:00</b>Priya · Phys</div></div>
-            <div class="dcol"><div class="dlbl">Sat</div><div class="dnum">12</div></div>
-            <div class="dcol"><div class="dlbl">Sun</div><div class="dnum">13</div></div>
-          </div>
-
-          <div style="height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);margin:0.35rem 0;"></div>
-
-          <div style="font-size:0.46rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:0.14rem;">Apr 14–20 · this week</div>
-          <div class="sched-grid">
-            <div class="dcol"><div class="dlbl">Mon</div><div class="dnum">14</div><div class="tb bl"><b>9:00</b>Priya · Phys</div><div class="tb tl"><b>14:00</b>Rahul · Math</div></div>
             <div class="dcol"><div class="dlbl">Tue</div><div class="dnum today">15</div><div class="tb pu"><b>10:00</b>Ayesha · Math</div></div>
             <div class="dcol"><div class="dlbl">Wed</div><div class="dnum">16</div><div class="tb bl"><b>11:00</b>Dev · Phys</div><div class="tb tl"><b>15:00</b>Sneha · Math</div></div>
             <div class="dcol"><div class="dlbl">Thu</div><div class="dnum">17</div><div class="tb pu"><b>9:30</b>Priya · Math</div></div>
             <div class="dcol"><div class="dlbl">Fri</div><div class="dnum">18</div><div class="tb bl"><b>13:00</b>Rahul · Phys</div></div>
             <div class="dcol"><div class="dlbl">Sat</div><div class="dnum">19</div><div class="tb tl"><b>10:00</b>Dev · Math</div><div class="tb pu"><b>12:00</b>Ayesha</div></div>
-            <div class="dcol"><div class="dlbl">Sun</div><div class="dnum">20</div></div>
+            <div class="dcol"><div class="dlbl">Sun</div><div class="dnum">20</div><div class="tb pu"><b>11:00</b>Kavya · Chem</div></div>
+            <div class="dcol"><div class="dlbl">Mon</div><div class="dnum">21</div><div class="tb bl"><b>9:00</b>Priya · Phys</div><div class="tb tl"><b>14:00</b>Rahul · Math</div></div>
           </div>
 
-          <div id="spot-timeblocks" style="margin-top:0.7rem;">
-            <div class="shdr" style="margin-bottom:0.3rem;"><h2>Time blocks</h2></div>
-            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0.22rem;font-size:0.46rem;color:var(--ink3);text-align:center;margin-bottom:0.2rem;">
-              <div>8am</div><div>9am</div><div>10am</div><div>11am</div><div>12pm</div><div>2pm</div><div>4pm</div>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0.22rem;">
-              <div style="height:24px;background:var(--blue-ghost);border-left:2px solid var(--blue-mid);"></div>
-              <div style="height:24px;background:var(--blue-ghost);border-left:2px solid var(--blue-mid);"></div>
-              <div style="height:24px;background:var(--orange-pale);border-left:2px solid var(--orange);"></div>
-              <div style="height:24px;background:var(--divider);"></div>
-              <div style="height:24px;background:var(--divider);"></div>
-              <div style="height:24px;background:var(--blue-ghost);border-left:2px solid var(--blue-mid);"></div>
-              <div style="height:24px;background:var(--divider);"></div>
-            </div>
-          </div>
+          <!-- Row 2: today + tomorrow, stacked -->
+          <div id="spot-timeblocks" style="display:flex;flex-direction:column;gap:0.85rem;margin-top:1.1rem;">
 
-          <div id="spot-hwdue" class="due-row" style="margin-top:0.6rem;">
-            <div class="due-it"><b>3 Homeworks Due</b><span>Priya, Rahul, Dev</span></div>
-            <div class="due-it bld"><b>2 Content Revisions</b><span>Phys Ch.4 · Math Ch.7</span></div>
+            <div>
+              <div class="shdr" style="margin-bottom:0.45rem;"><h2>Today · Tue Apr 15</h2><span style="font-size:0.72rem;color:var(--ink3);font-weight:400;">click to join</span></div>
+              <a class="tb pu" href="#live/session-1000-ayesha" title="Join video session · 10:00" style="font-size:0.82rem;padding:0.55rem 0.7rem;"><b style="font-size:0.78rem;">10:00</b>Ayesha · Math</a>
+            </div>
+
+            <div>
+              <div class="shdr" style="margin-bottom:0.45rem;"><h2>Tomorrow · Wed Apr 16</h2></div>
+              <a class="tb bl" href="#live/session-1100-dev" title="Join video session · 11:00" style="font-size:0.82rem;padding:0.55rem 0.7rem;"><b style="font-size:0.78rem;">11:00</b>Dev · Phys</a>
+              <a class="tb tl" href="#live/session-1500-sneha" title="Join video session · 15:00" style="font-size:0.82rem;padding:0.55rem 0.7rem;"><b style="font-size:0.78rem;">15:00</b>Sneha · Math</a>
+            </div>
+
           </div>
         </div>
+
+        <!-- Pending Homework & Assessments -->
+        <div class="card" id="spot-pending">
+          <div class="shdr"><h2>Pending Homework &amp; Assessments</h2><a href="#">All →</a></div>
+          <div class="act-list">
+            <div class="act"><span class="act-idx">1.</span><span class="act-name">Priya</span><span class="act-topic">Phys HW · Waves Ch.4</span><span class="act-date">due Apr 16</span></div>
+            <div class="act"><span class="act-idx">2.</span><span class="act-name">Rahul</span><span class="act-topic">Maths Assessment · Calculus</span><span class="act-date">due Apr 17</span></div>
+            <div class="act"><span class="act-idx">3.</span><span class="act-name">Dev</span><span class="act-topic">Phys HW · Magnetism set 2</span><span class="act-date">overdue</span></div>
+            <div class="act"><span class="act-idx">4.</span><span class="act-name">Ayesha</span><span class="act-topic">Maths HW · Integrals</span><span class="act-date">due Apr 18</span></div>
+          </div>
+        </div>
+
+        <!-- Content Review -->
+        <div class="card" id="spot-contentreview">
+          <div class="shdr"><h2>Content Review</h2><a href="#">Review queue →</a></div>
+          <div class="act-list">
+            <div class="act"><span class="act-idx">1.</span><span class="act-name">Phys Ch.4</span><span class="act-topic">Wave Optics — lesson notes revision</span><span class="act-date">flagged</span></div>
+            <div class="act"><span class="act-idx">2.</span><span class="act-name">Math Ch.7</span><span class="act-topic">Integration — worked examples set</span><span class="act-date">pending</span></div>
+            <div class="act"><span class="act-idx">3.</span><span class="act-name">Phys Ch.6</span><span class="act-topic">Thermodynamics — quiz draft</span><span class="act-date">draft</span></div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Col 2: Requests + Assessment -->
-      <div class="card" style="padding:0;">
-        <!-- Request List -->
-        <div id="spot-reqlist" style="padding:1.2rem 1.6rem;">
-          <div class="shdr"><h2>Request List</h2><a href="#">See all →</a></div>
-          <table class="rtable">
-            <thead><tr><th>Name</th><th>Country</th><th>Type</th><th>Group</th><th></th></tr></thead>
-            <tbody>
-              <tr><td>Aarav Patel</td><td>IN</td><td><span class="bge bl">1-on-1</span></td><td style="color:var(--ink4);">—</td><td><button class="apbtn">Approve</button></td></tr>
-              <tr><td>Lily Chen</td><td>US</td><td><span class="bge gr">Group</span></td><td style="color:var(--ink2);">Physics Batch A</td><td><button class="apbtn">Approve</button></td></tr>
-              <tr><td>Omar Hassan</td><td>AE</td><td><span class="bge bl">1-on-1</span></td><td style="color:var(--ink4);">—</td><td><button class="apbtn">Approve</button></td></tr>
-              <tr><td>Sofia Rivera</td><td>MX</td><td><span class="bge gr">Group</span></td><td style="color:var(--ink2);">Maths Batch B</td><td><button class="apbtn">Approve</button></td></tr>
-            </tbody>
-          </table>
-        </div>
+      <!-- Col 2: right-stack 2x2 (Tutoring | Earnings / Uploads | Tutoring Requests) -->
+      <div class="right-stack">
 
-        <div style="height:1px;margin:0 1.6rem;background:linear-gradient(to right,transparent 0%,var(--div-color) 5%,var(--div-color) 95%,transparent 100%);"></div>
-
-        <!-- Requests This Month -->
-        <div id="spot-reqreview" style="padding:1.2rem 1.6rem;">
-          <div class="shdr"><h2>Requests This Month</h2></div>
-          <div style="display:flex;align-items:baseline;gap:0.35rem;margin-bottom:0.5rem;">
-            <span style="font-family:var(--mono);font-size:1.8rem;font-weight:600;color:var(--navy);letter-spacing:-1px;">24</span>
-            <span class="delta pos">▲ +6 vs last month</span>
+        <!-- Row 1: Your Tutoring | My Earnings -->
+        <div class="rstack-row1">
+          <div class="card" id="spot-tutoring">
+            <div class="shdr"><h2>Your Tutoring</h2><a href="#">Details →</a></div>
+            <div style="font-size:0.7rem;color:var(--ink3);margin-bottom:0.2rem;">This month · YTD % of goal</div>
+            <div style="display:flex;align-items:baseline;gap:0.45rem;margin-bottom:0.3rem;">
+              <span style="font-family:var(--mono);font-size:1.6rem;font-weight:600;color:var(--navy);letter-spacing:-1px;" id="tutHead">48 hrs</span>
+              <span class="delta pos" id="tutDelta">▲ +12% vs last</span>
+            </div>
+            <div style="display:flex;justify-content:flex-end;margin:0.2rem 0 0.15rem;">
+              <select class="msel" id="tutDim" style="flex:0 0 auto;width:auto;font-size:0.7rem;padding:0.2rem 0.4rem;">
+                <option value="hours">hours tutored</option>
+                <option value="sessions">sessions completed</option>
+                <option value="students">new students</option>
+                <option value="revenue">revenue</option>
+              </select>
+            </div>
+            <div class="chart-h-big"><canvas id="tutoringChart"></canvas></div>
           </div>
-          <div class="rbar-row"><span class="rbar-lbl">India</span><div class="rbar-wrap"><div class="rbar" style="width:72%"></div></div><span class="rbar-pct">72%</span></div>
-          <div class="rbar-row"><span class="rbar-lbl">USA</span><div class="rbar-wrap"><div class="rbar" style="width:48%"></div></div><span class="rbar-pct">48%</span></div>
-          <div class="rbar-row"><span class="rbar-lbl">UAE</span><div class="rbar-wrap"><div class="rbar" style="width:30%"></div></div><span class="rbar-pct">30%</span></div>
-        </div>
 
-        <div style="height:1px;margin:0 1.6rem;background:linear-gradient(to right,transparent 0%,var(--div-color) 5%,var(--div-color) 95%,transparent 100%);"></div>
-
-        <!-- Assessment List -->
-        <div id="spot-assessment" style="padding:1.2rem 1.6rem;">
-          <div class="shdr"><h2>Assessment List</h2><a href="#">All →</a></div>
-          <div class="ass"><div class="ass-top"><span class="ass-name">Physics Mock Test 3</span><span class="ass-score">84%</span></div><div class="ass-sub">Priya · Apr 10</div><div class="pbar"><div class="pfill" style="width:84%"></div></div></div>
-          <div class="ass"><div class="ass-top"><span class="ass-name">Maths Quiz — Calculus</span><span class="ass-score">71%</span></div><div class="ass-sub">Rahul · Apr 8</div><div class="pbar"><div class="pfill" style="width:71%"></div></div></div>
-          <div class="ass"><div class="ass-top"><span class="ass-name">Waves &amp; Optics Test</span><span class="ass-score">90%</span></div><div class="ass-sub">Ayesha · Apr 6</div><div class="pbar"><div class="pfill" style="width:90%"></div></div></div>
-          <div class="ass"><div class="ass-top"><span class="ass-name">Differentiation Set 4</span><span class="ass-score">78%</span></div><div class="ass-sub">Dev · Apr 4</div><div class="pbar"><div class="pfill" style="width:78%"></div></div></div>
-        </div>
-      </div>
-
-      <!-- Col 3: Earnings + Uploads -->
-      <div style="display:flex;flex-direction:column;gap:0.85rem;">
-        <div class="card" id="spot-earnings">
-          <div class="shdr"><h2>My Earnings</h2><a href="#">View all →</a></div>
-          <div class="earn-stats">
-            <div class="estat"><div class="el">This Month</div><div class="ev">$1,240 <small>USD</small></div></div>
-            <div class="estat"><div class="el">YTD</div><div class="ev">$9,870 <small>USD</small></div></div>
-            <div class="estat"><div class="el">% of Goal</div><div class="ev">82%</div></div>
-          </div>
-          <div class="earn-chg">vs last month: <span class="up">▲ +14.2%</span></div>
-          <div class="chart-h70"><canvas id="earningsChart"></canvas></div>
-          <div id="spot-topstudent">
-          <div style="font-size:0.70rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;margin:0.45rem 0 0.2rem;">Top Earners</div>
-          <div class="earners">
-            <div class="er"><div class="er-rank r1">1</div><span class="er-name">Priya Sharma</span><span class="er-amt">$320</span></div>
-            <div class="er"><div class="er-rank r2">2</div><span class="er-name">Rahul Mehta</span><span class="er-amt">$280</span></div>
-            <div class="er"><div class="er-rank r3">3</div><span class="er-name">Ayesha Khan</span><span class="er-amt">$210</span></div>
-          </div>
+          <div class="card" id="spot-earnings">
+            <div class="shdr"><h2>My Earnings</h2><a href="#">View all →</a></div>
+            <div class="earn-stats">
+              <div class="estat"><div class="el">This Month</div><div class="ev">$1,240 <small>USD</small></div></div>
+              <div class="estat"><div class="el">YTD</div><div class="ev">$9,870 <small>USD</small></div></div>
+              <div class="estat"><div class="el">% of Goal</div><div class="ev">82%</div></div>
+            </div>
+            <div class="earn-chg">vs last month: <span class="up">▲ +14.2%</span></div>
+            <div style="display:flex;justify-content:flex-end;margin:0.2rem 0 0.15rem;">
+              <select class="msel" id="earnDim" style="flex:0 0 auto;width:auto;font-size:0.7rem;padding:0.2rem 0.4rem;">
+                <option value="month">by month</option>
+                <option value="country">by country</option>
+                <option value="curricula">by curricula</option>
+                <option value="subject">by subject</option>
+                <option value="grades">by grades</option>
+              </select>
+            </div>
+            <div class="chart-h-big"><canvas id="earningsChart"></canvas></div>
           </div>
         </div>
 
-        <div class="card" id="spot-uploads">
-          <div class="shdr"><h2>My Uploads</h2><a href="#">See all →</a></div>
-          <div class="upl"><div class="ftype pdf">PDF</div><div><div class="upl-name">Physics Ch.4 Notes</div><div class="upl-date">Apr 13 · 2.1 MB</div></div></div>
-          <div class="upl"><div class="ftype vid">VID</div><div><div class="upl-name">Mechanics Intro</div><div class="upl-date">Apr 12 · 84 MB</div></div></div>
-          <div class="upl"><div class="ftype doc">DOC</div><div><div class="upl-name">Maths HW Set 3</div><div class="upl-date">Apr 11 · 340 KB</div></div></div>
-          <div style="background: linear-gradient(to right, transparent 0%, var(--div-color) 12%, var(--div-color) 88%, transparent 100%); height:2px; border:none;margin:0.6rem 0 0.5rem;"></div>
-          <div class="dft"><div class="dft-bar"></div><div class="dft-name">Thermodynamics Quiz</div><div class="dft-edit">Edit</div></div>
-          <div class="dft"><div class="dft-bar blue"></div><div class="dft-name">Wave Optics Notes</div><div class="dft-edit">Edit</div></div>
+        <!-- Row 2: My Uploads | Tutoring Requests -->
+        <div class="rstack-row2">
+          <div class="card" id="spot-uploads">
+            <div class="shdr"><h2>My Uploads</h2><a href="#">See all →</a></div>
+            <div style="font-size:0.62rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;margin:0.1rem 0 0.25rem;">Recent uploads</div>
+            <div class="upl"><div class="ftype pdf">PDF</div><div><div class="upl-name">Physics Ch.4 Notes</div><div class="upl-date">Apr 13 · 2.1 MB</div></div></div>
+            <div class="upl"><div class="ftype vid">VID</div><div><div class="upl-name">Mechanics Intro</div><div class="upl-date">Apr 12 · 84 MB</div></div></div>
+            <div class="upl"><div class="ftype doc">DOC</div><div><div class="upl-name">Maths HW Set 3</div><div class="upl-date">Apr 11 · 340 KB</div></div></div>
+            <div style="background: linear-gradient(to right, transparent 0%, var(--div-color) 12%, var(--div-color) 88%, transparent 100%); height:2px; border:none;margin:0.6rem 0 0.5rem;"></div>
+            <div style="font-size:0.62rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:0.5px;margin:0 0 0.25rem;">Uploads expected · upcoming lessons</div>
+            <div class="dft"><div class="dft-bar"></div><div class="dft-name">Thermodynamics Quiz · Apr 17</div><div class="dft-edit">Edit</div></div>
+            <div class="dft"><div class="dft-bar blue"></div><div class="dft-name">Wave Optics Notes · Apr 19</div><div class="dft-edit">Edit</div></div>
+            <div class="dft"><div class="dft-bar"></div><div class="dft-name">Calculus Problem Set · Apr 21</div><div class="dft-edit">Edit</div></div>
+          </div>
+
+          <div class="card" id="spot-reqlist">
+            <div class="shdr"><h2>Tutoring Requests</h2><a href="#">See all →</a></div>
+            <div class="treq-list">
+              <div class="treq">
+                <span class="treq-n">1.</span>
+                <span class="treq-name">Aarav Patel</span>
+                <span class="treq-type on1">1-on-1</span>
+                <span class="treq-group" style="color:var(--ink4);">—</span>
+                <span class="treq-subj">Physics</span>
+                <span class="treq-date">Apr 14</span>
+                <button class="apbtn">Approve</button>
+              </div>
+              <div class="treq">
+                <span class="treq-n">2.</span>
+                <span class="treq-name">Lily Chen</span>
+                <span class="treq-type grp">Group</span>
+                <span class="treq-group">Physics Batch A</span>
+                <span class="treq-subj">Physics</span>
+                <span class="treq-date">Apr 14</span>
+                <button class="apbtn">Approve</button>
+              </div>
+              <div class="treq">
+                <span class="treq-n">3.</span>
+                <span class="treq-name">Omar Hassan</span>
+                <span class="treq-type on1">1-on-1</span>
+                <span class="treq-group" style="color:var(--ink4);">—</span>
+                <span class="treq-subj">Maths</span>
+                <span class="treq-date">Apr 13</span>
+                <button class="apbtn">Approve</button>
+              </div>
+              <div class="treq">
+                <span class="treq-n">4.</span>
+                <span class="treq-name">Sofia Rivera</span>
+                <span class="treq-type grp">Group</span>
+                <span class="treq-group">Maths Batch B</span>
+                <span class="treq-subj">Maths</span>
+                <span class="treq-date">Apr 13</span>
+                <button class="apbtn">Approve</button>
+              </div>
+              <div class="treq">
+                <span class="treq-n">5.</span>
+                <span class="treq-name">Kavya Iyer</span>
+                <span class="treq-type on1">1-on-1</span>
+                <span class="treq-group" style="color:var(--ink4);">—</span>
+                <span class="treq-subj">Chem</span>
+                <span class="treq-date">Apr 12</span>
+                <button class="apbtn">Approve</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -877,7 +992,7 @@ body {
     <div class="bot-grid">
 
       <!-- Group — full width: student sub-panel | divider | group sub-panel -->
-      <div class="card bot-card" style="display:grid;grid-template-columns:1fr 1px 1.6fr;gap:0;grid-column:1/-1;">
+      <div class="card bot-card" style="display:grid;grid-template-columns:1.35fr 1px 1.6fr;gap:0;grid-column:1/-1;">
 
         <!-- Left: Individual session panel -->
         <div id="spot-studentdata" style="padding:0 1rem 0 0;">
@@ -925,6 +1040,16 @@ body {
             <div class="il"><span class="il-lbl">HW Status</span><span class="il-val" id="s-hw" style="font-weight:700;color:var(--blue-mid);">On time · 4/5</span></div>
             <div class="il"><span class="il-lbl">Key Date</span><span class="il-val" id="s-date">Apr 20 — School exam</span></div>
           </div>
+
+          <!-- Upcoming tests for this student -->
+          <div id="spot-student-upcoming" style="margin-top:1.1rem;">
+            <div class="shdr" style="margin-bottom:0.4rem;"><h2>Upcoming Tests</h2></div>
+            <div class="act-list" id="s-upcoming-list">
+              <div class="act"><span class="act-idx">1.</span><span class="act-name">Maths</span><span class="act-topic">Calculus unit test · 1-on-1</span><span class="act-date">Apr 20</span></div>
+              <div class="act"><span class="act-idx">2.</span><span class="act-name">Physics</span><span class="act-topic">Wave Optics mock</span><span class="act-date">Apr 24</span></div>
+              <div class="act"><span class="act-idx">3.</span><span class="act-name">SAT</span><span class="act-topic">Math section practice</span><span class="act-date">May 1</span></div>
+            </div>
+          </div>
         </div>
 
         <!-- inner vertical divider -->
@@ -947,18 +1072,29 @@ body {
           <div style="flex:1;display:flex;gap:0.8rem;min-height:0;">
 
           <!-- Charts column -->
-          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:0.3rem;">
-            <div style="font-size:0.44rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1px;">Monthly avg score</div>
-            <div style="flex:1;position:relative;min-height:60px;">
-              <canvas id="monthChart" style="position:absolute;inset:0;width:100%!important;height:100%!important;"></canvas>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:0.4rem;">
+
+            <!-- Histogram dataset + units cascade -->
+            <div style="display:flex;gap:0.3rem;align-items:center;">
+              <select class="msel" id="histDataset" style="flex:1;min-width:0;font-size:0.72rem;padding:0.25rem 0.45rem;">
+                <option value="hw">Last homework</option>
+                <option value="assess">Last assessment</option>
+                <option value="week">Total this week</option>
+                <option value="month" selected>Total this month</option>
+                <option value="course">Total for course</option>
+              </select>
+              <select class="msel" id="histUnits" style="flex:0 0 auto;width:82px;font-size:0.72rem;padding:0.25rem 0.45rem;">
+                <option value="all">All units</option>
+                <option value="pick">By unit…</option>
+              </select>
+              <select class="msel" id="histUnitList" style="flex:0 0 auto;width:130px;font-size:0.72rem;padding:0.25rem 0.45rem;display:none;"></select>
             </div>
 
-            <div style="height:1px;background:linear-gradient(to right,transparent 0%,var(--div-color) 8%,var(--div-color) 92%,transparent 100%);flex-shrink:0;"></div>
-
-            <div style="font-size:0.44rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1px;">Last assessment — all students</div>
-            <div style="flex:1;position:relative;min-height:60px;">
-              <canvas id="assChart" style="position:absolute;inset:0;width:100%!important;height:100%!important;"></canvas>
+            <!-- SVG histogram -->
+            <div style="position:relative;height:150px;flex-shrink:0;">
+              <svg id="histSvg" viewBox="0 0 400 150" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;"></svg>
             </div>
+            <div id="histXlabels" style="display:grid;grid-template-columns:repeat(8,1fr);font-size:0.52rem;color:var(--ink3);text-align:center;margin-top:-0.15rem;padding:0 12px;"></div>
 
             <div style="display:flex;gap:0.3rem;flex-shrink:0;">
               <div class="estat" style="text-align:center;flex:1;padding:0.2rem 0.2rem;">
@@ -976,6 +1112,29 @@ body {
               <div class="estat" style="text-align:center;flex:1;padding:0.2rem 0.2rem;">
                 <div class="el" style="font-size:0.44rem;">vs Month</div>
                 <div class="ev" id="statRank" style="font-size:0.7rem;">—</div>
+              </div>
+            </div>
+
+            <!-- Weakness Areas -->
+            <div id="spot-weakness" style="margin-top:0.5rem;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:0.3rem;margin-bottom:0.3rem;">
+                <div style="font-size:0.68rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1px;">Weakness Areas</div>
+                <select class="msel" id="waScope" style="flex:0 0 auto;width:140px;font-size:0.74rem;padding:0.28rem 0.5rem;">
+                  <option value="week">Past week</option>
+                  <option value="unit">Current unit</option>
+                  <option value="all">All units</option>
+                </select>
+              </div>
+              <div id="waList"></div>
+            </div>
+
+            <!-- Upcoming tests for this group -->
+            <div id="spot-group-upcoming" style="margin-top:0.85rem;">
+              <div style="font-size:0.68rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.35rem;">Upcoming Tests</div>
+              <div class="act-list" id="g-upcoming-list">
+                <div class="act"><span class="act-idx">1.</span><span class="act-name">Batch A</span><span class="act-topic">Mock Boards · Ray &amp; Wave Optics</span><span class="act-date">Apr 22</span></div>
+                <div class="act"><span class="act-idx">2.</span><span class="act-name">Batch A</span><span class="act-topic">Unit test · Thermodynamics</span><span class="act-date">Apr 29</span></div>
+                <div class="act"><span class="act-idx">3.</span><span class="act-name">Batch A</span><span class="act-topic">AP Physics practice set</span><span class="act-date">May 5</span></div>
               </div>
             </div>
           </div>
@@ -1064,8 +1223,8 @@ var chart = new Chart(document.getElementById('earningsChart'), {
     animation: { duration: 500, easing: 'easeInOutQuart' },
     plugins: { legend: { display: false } },
     scales: {
-      x: { grid: { display: false }, ticks: { font: { size: 7, family: 'Epilogue' }, color: '#7a8fba' } },
-      y: { grid: { display: false }, ticks: { font: { size: 7, family: 'Epilogue' }, color: '#7a8fba', callback: function(v){ return '$'+v; } }, min: 0, max: 2000 }
+      x: { grid: { display: false }, ticks: { font: { size: 10, family: 'Epilogue', weight: '600' }, color: '#4f6390' } },
+      y: { grid: { display: false }, ticks: { font: { size: 10, family: 'Epilogue', weight: '600' }, color: '#4f6390', callback: function(v){ return '$'+v; } }, min: 0, max: 2000 }
     }
   }
 });
@@ -1075,6 +1234,136 @@ setTimeout(function() {
   chart.data.datasets[0].data = trueData.slice();
   chart.update();
 }, 600);
+
+// ── Earnings dimension swap ──
+var EARN_DATA = {
+  month:     { labels:['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+               data:  [620, 780, 910, 1050, 870, 1100, 1090, 1240], max: 2000, prefix: '$' },
+  country:   { labels:['IN','US','UK','AE','SG','AU'],
+               data:  [3200, 2800, 1600, 1200, 700, 370], max: 4000, prefix: '$' },
+  curricula: { labels:['CBSE/ICSE','AP','A-Levels','IGCSE','IB','SAT/MCAT'],
+               data:  [3100, 1700, 1500, 1200, 900, 1470], max: 4000, prefix: '$' },
+  subject:   { labels:['Physics','Maths','Chemistry','Biology'],
+               data:  [3800, 3200, 1800, 1070], max: 4500, prefix: '$' },
+  grades:    { labels:['Gr 8','Gr 9','Gr 10','Gr 11','Gr 12'],
+               data:  [900, 1400, 2200, 2800, 2570], max: 3500, prefix: '$' }
+};
+
+var earnDim = document.getElementById('earnDim');
+if (earnDim) {
+  earnDim.addEventListener('change', function() {
+    var d = EARN_DATA[this.value]; if (!d) return;
+    chart.data.labels = d.labels;
+    chart.options.scales.y.max = d.max;
+    chart.options.scales.y.ticks.callback = function(v){ return d.prefix + v; };
+    // noisy → settle (reuse existing excursion animation pattern)
+    chart.options.animation = { duration: 450, easing: 'easeInOutQuart' };
+    chart.data.datasets[0].data = d.data.map(function(v){
+      var lo = Math.max(0, v - d.max*0.35), hi = v + d.max*0.35;
+      return lo + Math.random()*(hi-lo);
+    });
+    chart.update();
+    setTimeout(function() {
+      chart.options.animation = { duration: 800, easing: 'easeInOutQuart' };
+      chart.data.datasets[0].data = d.data.slice();
+      chart.update();
+    }, 500);
+  });
+}
+
+// ── Tutoring chart (metric-type swap) ──
+var TUT_DATA = {
+  hours:    { labels:['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+              data:  [32, 38, 41, 44, 39, 46, 45, 48], max: 80, suffix: ' hr', head: '48 hrs', delta: '▲ +12% vs last' },
+  sessions: { labels:['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+              data:  [18, 22, 25, 27, 23, 29, 28, 31], max: 50, suffix: '', head: '31 sessions', delta: '▲ +9% vs last' },
+  students: { labels:['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+              data:  [3, 4, 2, 5, 3, 4, 6, 5], max: 10, suffix: '', head: '5 new', delta: '▲ +1 vs last' },
+  revenue:  { labels:['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+              data:  [620, 780, 910, 1050, 870, 1100, 1090, 1240], max: 2000, suffix: '', head: '$1,240', delta: '▲ +14% vs last' }
+};
+
+var tutChart = null;
+var tutCurrent = TUT_DATA.hours;
+(function() {
+  var el = document.getElementById('tutoringChart');
+  if (!el) return;
+  tutChart = new Chart(el, {
+    type: 'line',
+    data: {
+      labels: tutCurrent.labels,
+      datasets: [{
+        data: tutCurrent.data.map(function(v){
+          var lo = Math.max(0, v - tutCurrent.max*0.35), hi = v + tutCurrent.max*0.35;
+          return lo + Math.random()*(hi-lo);
+        }),
+        fill: true,
+        backgroundColor: 'rgba(212,87,10,0.09)',
+        borderColor: '#d4570a',
+        borderWidth: 1.5,
+        pointRadius: 2,
+        pointBackgroundColor: '#1a3a6e',
+        tension: 0.42
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 500, easing: 'easeInOutQuart' },
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10, family: 'Epilogue', weight: '600' }, color: '#4f6390' } },
+        y: { grid: { display: false }, ticks: { font: { size: 10, family: 'Epilogue', weight: '600' }, color: '#4f6390' }, min: 0, max: tutCurrent.max }
+      }
+    }
+  });
+  setTimeout(function() {
+    tutChart.options.animation = { duration: 800, easing: 'easeInOutQuart' };
+    tutChart.data.datasets[0].data = tutCurrent.data.slice();
+    tutChart.update();
+  }, 600);
+})();
+
+var tutDim = document.getElementById('tutDim');
+if (tutDim) {
+  tutDim.addEventListener('change', function() {
+    var d = TUT_DATA[this.value]; if (!d || !tutChart) return;
+    tutCurrent = d;
+    var head = document.getElementById('tutHead');
+    var delta = document.getElementById('tutDelta');
+    if (head) head.textContent = d.head;
+    if (delta) delta.textContent = d.delta;
+    tutChart.data.labels = d.labels;
+    tutChart.options.scales.y.max = d.max;
+    tutChart.options.animation = { duration: 450, easing: 'easeInOutQuart' };
+    tutChart.data.datasets[0].data = d.data.map(function(v){
+      var lo = Math.max(0, v - d.max*0.35), hi = v + d.max*0.35;
+      return lo + Math.random()*(hi-lo);
+    });
+    tutChart.update();
+    setTimeout(function() {
+      tutChart.options.animation = { duration: 800, easing: 'easeInOutQuart' };
+      tutChart.data.datasets[0].data = d.data.slice();
+      tutChart.update();
+    }, 500);
+  });
+}
+
+function animateTutChart() {
+  if (!tutChart) return;
+  var d = tutCurrent;
+  tutChart.options.animation = { duration: 500, easing: 'easeInOutQuart' };
+  tutChart.data.datasets[0].data = d.data.map(function(v){
+    var lo = Math.max(0, v - d.max*0.35), hi = v + d.max*0.35;
+    return lo + Math.random()*(hi-lo);
+  });
+  tutChart.update();
+  setTimeout(function() {
+    tutChart.options.animation = { duration: 800, easing: 'easeInOutQuart' };
+    tutChart.data.datasets[0].data = d.data.slice();
+    tutChart.update();
+  }, 600);
+}
 
 // rings triggered via animateRing() calls below
 
@@ -1152,8 +1441,27 @@ animateBars();
 setTimeout(function() { animateRing(document.getElementById('ring1')); }, 0);
 setTimeout(function() { animateRing(document.getElementById('ring2')); }, 250);
 
-// hover triggers
-document.getElementById('earningsChart').addEventListener('mouseenter', animateChart);
+// hover triggers — gated by shared jiggle cooldown
+window._jiggleLast = window._jiggleLast || {};
+window._jiggleOnce = window._jiggleOnce || function(key, fn, cooldownMs) {
+  cooldownMs = cooldownMs || 3500;
+  var now = Date.now();
+  if (window._jiggleLast[key] && now - window._jiggleLast[key] < cooldownMs) return;
+  window._jiggleLast[key] = now;
+  fn();
+};
+// seed cooldown from initial load-time animation so an immediate hover is ignored
+window._jiggleLast['earnings'] = Date.now();
+window._jiggleLast['tutoring'] = Date.now();
+document.getElementById('earningsChart').addEventListener('mouseenter', function() {
+  window._jiggleOnce('earnings', animateChart);
+});
+var _tutEl = document.getElementById('tutoringChart');
+if (_tutEl) {
+  _tutEl.addEventListener('mouseenter', function() {
+    window._jiggleOnce('tutoring', animateTutChart);
+  });
+}
 
 var rbarTrues  = [72, 48, 30, 18, 12];
 var pfillTrues = [84, 71, 90, 78];
@@ -1217,25 +1525,45 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
       mastered:62, progress:25, weak:13,
       sessions:18, upcoming:'Tue Apr 15 · 10:00 · Maths',
       weakness:'Integration, Wave Optics', next:'Definite Integrals',
-      hw:'On time · 4/5', hwColor:'var(--blue-mid)', date:'Apr 20 — School exam'
+      hw:'On time · 4/5', hwColor:'var(--blue-mid)', date:'Apr 20 — School exam',
+      upTests: [
+        {n:'Maths', t:'School exam · Calculus', d:'Apr 20'},
+        {n:'Physics', t:'Wave Optics mock', d:'Apr 24'},
+        {n:'SAT', t:'Math section practice', d:'May 1'}
+      ]
     },
     'Rahul Mehta': {
       mastered:55, progress:30, weak:15,
       sessions:14, upcoming:'Mon Apr 14 · 14:00 · Physics',
       weakness:"Newton's Laws, Thermodynamics", next:'Waves & Optics',
-      hw:'Overdue · 3/5', hwColor:'var(--orange)', date:'Apr 18 — Class test'
+      hw:'Overdue · 3/5', hwColor:'var(--orange)', date:'Apr 18 — Class test',
+      upTests: [
+        {n:'Physics', t:'Class test · Newton\'s Laws', d:'Apr 18'},
+        {n:'Maths', t:'1-on-1 mock · Algebra', d:'Apr 27'},
+        {n:'GCSE', t:'Full paper practice', d:'May 4'}
+      ]
     },
     'Ayesha Khan': {
       mastered:72, progress:20, weak:8,
       sessions:20, upcoming:'Wed Apr 16 · 09:00 · Physics',
       weakness:'Wave Optics', next:'Ray Optics',
-      hw:'On time · 5/5', hwColor:'var(--blue-mid)', date:'Apr 22 — Board prep'
+      hw:'On time · 5/5', hwColor:'var(--blue-mid)', date:'Apr 22 — Board prep',
+      upTests: [
+        {n:'Physics', t:'Board prep · Ray Optics', d:'Apr 22'},
+        {n:'Chem', t:'Unit test · Thermochem', d:'Apr 28'},
+        {n:'AP', t:'Physics full mock', d:'May 6'}
+      ]
     },
     'Dev Anand': {
       mastered:48, progress:35, weak:17,
       sessions:11, upcoming:'Thu Apr 17 · 11:00 · Maths',
       weakness:'Integration, Differentiation', next:'Applications of Derivatives',
-      hw:'On time · 4/5', hwColor:'var(--blue-mid)', date:'Apr 25 — Unit test'
+      hw:'On time · 4/5', hwColor:'var(--blue-mid)', date:'Apr 25 — Unit test',
+      upTests: [
+        {n:'Maths', t:'Unit test · Differentiation', d:'Apr 25'},
+        {n:'Physics', t:'Magnetism quiz', d:'May 2'},
+        {n:'A-Levels', t:'Practice paper · Mechanics', d:'May 9'}
+      ]
     }
   };
 
@@ -1272,6 +1600,17 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
     var hwEl = document.getElementById('s-hw');
     if (hwEl) { hwEl.textContent = d.hw; hwEl.style.color = d.hwColor; }
     document.getElementById('s-date').textContent     = d.date;
+
+    // refresh student upcoming tests
+    var sUp = document.getElementById('s-upcoming-list');
+    if (sUp && d.upTests) {
+      sUp.innerHTML = d.upTests.map(function(t, i){
+        return '<div class="act"><span class="act-idx">'+(i+1)+'.</span>'+
+               '<span class="act-name">'+t.n+'</span>'+
+               '<span class="act-topic">'+t.t+'</span>'+
+               '<span class="act-date">'+t.d+'</span></div>';
+      }).join('');
+    }
 
     // re-trigger ring animation
     animateRing(document.getElementById('ring1'));
@@ -1372,111 +1711,266 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
   } catch(e) { console.warn('Profile parse error', e); }
 })();
 
-// ── Group charts ──
+// ── Group histogram + weakness ──
 (function() {
   function mean(a)   { return a.reduce(function(x,y){return x+y;},0)/a.length; }
   function median(a) { var s=a.slice().sort(function(x,y){return x-y;}),m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2; }
   function stdev(a)  { var m=mean(a); return Math.sqrt(a.reduce(function(x,y){return x+Math.pow(y-m,2);},0)/a.length); }
-
-  // Chart 1: month-by-month group mean score
-  var monthLabels = ['Nov','Dec','Jan','Feb','Mar','Apr'];
-  var monthScores = [68, 72, 70, 75, 78, 81];
-  var monthCtx = document.getElementById('monthChart');
-  if (monthCtx) {
-    var noisy1 = monthScores.map(function(v){ return Math.max(50,Math.min(100,v+(Math.random()-.5)*20)); });
-    var monthChart = new Chart(monthCtx, {
-      type: 'line',
-      data: {
-        labels: monthLabels,
-        datasets: [{
-          data: noisy1, fill: true,
-          backgroundColor: 'rgba(26,58,110,0.08)',
-          borderColor: '#1a3a6e', borderWidth: 2,
-          pointRadius: 3, pointBackgroundColor: '#d4570a', tension: 0.4
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        animation: { duration: 600, easing: 'easeInOutQuart' },
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid:{display:false}, ticks:{font:{size:7,family:'Epilogue'},color:'#7a8fba'} },
-          y: { min:55, max:95, grid:{display:false}, ticks:{font:{size:7,family:'Epilogue'},color:'#7a8fba',callback:function(v){return v+'%';}} }
-        }
-      }
-    });
-    setTimeout(function(){
-      monthChart.options.animation={duration:700,easing:'easeInOutQuart'};
-      monthChart.data.datasets[0].data=monthScores.slice();
-      monthChart.update();
-    },700);
-    monthCtx.addEventListener('mouseenter',function(){
-      monthChart.options.animation={duration:500,easing:'easeInOutQuart'};
-      monthChart.data.datasets[0].data=monthScores.map(function(v){return Math.max(50,Math.min(100,v+(Math.random()-.5)*20));});
-      monthChart.update();
-      setTimeout(function(){ monthChart.options.animation={duration:700,easing:'easeInOutQuart'}; monthChart.data.datasets[0].data=monthScores.slice(); monthChart.update(); },600);
-    });
-  }
-
-  // Chart 2: last assessment scores — all students (bar chart)
-  var students    = ['Priya','Rahul','Ayesha','Dev','Sneha'];
-  var lastScores  = [90, 71, 88, 78, 65];
-  var mn=mean(lastScores), md=median(lastScores), sd=stdev(lastScores);
-  var prevMean = mean(monthScores.slice(0,-1));
-  var rank = mn >= prevMean+sd ? 'Strong' : mn >= prevMean ? 'Good' : 'Below avg';
-  var rankColor = mn>=prevMean+sd ? 'var(--blue-mid)' : mn>=prevMean ? 'var(--orange)' : '#dc2626';
-
   function setEl(id,txt,c){ var e=document.getElementById(id); if(e){e.textContent=txt;if(c)e.style.color=c;} }
-  setEl('statMean',   mn.toFixed(1)+'%');
-  setEl('statMedian', md.toFixed(1)+'%');
-  setEl('statStdev',  '±'+sd.toFixed(1));
-  setEl('statRank',   rank, rankColor);
 
-  var assCtx = document.getElementById('assChart');
-  if (assCtx) {
-    var noisy2 = lastScores.map(function(v){ return Math.max(40,Math.min(100,v+(Math.random()-.5)*25)); });
-    var assChart = new Chart(assCtx, {
-      type: 'line',
-      data: {
-        labels: students,
-        datasets: [{
-          data: noisy2,
-          fill: true,
-          backgroundColor: 'rgba(46,92,168,0.10)',
-          borderColor: '#2e5ca8',
-          borderWidth: 2,
-          pointRadius: 4,
-          pointBackgroundColor: lastScores.map(function(v){ return v >= mn ? '#2e5ca8' : '#d4570a'; }),
-          pointBorderWidth: 0,
-          tension: 0.4
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        animation: { duration: 600, easing: 'easeInOutQuart' },
-        plugins: { legend:{display:false}, tooltip:{callbacks:{label:function(c){return c.parsed.y.toFixed(0)+'%';}}} },
-        scales: {
-          x: { grid:{display:false}, ticks:{font:{size:7,family:'Epilogue'},color:'#7a8fba'} },
-          y: { min:40, max:100, grid:{display:false}, ticks:{font:{size:7,family:'Epilogue'},color:'#7a8fba',callback:function(v){return v+'%';}} }
-        }
+  // ── units per group ──
+  var UNITS = {
+    physA: ['Mechanics','Waves & Optics','Thermodynamics','Electricity','Modern Physics'],
+    mathB: ['Algebra','Calculus','Trigonometry','Coord Geometry','Probability'],
+    advC:  ['Vectors','Complex Numbers','Integration','Differentiation','Matrices']
+  };
+
+  // ── weakness per group × scope ──
+  var WEAKNESS = {
+    physA: {
+      week: [{name:'Wave Optics',pct:74},{name:'Rotational Motion',pct:62},{name:'Thermodynamics',pct:48}],
+      unit: [{name:'Interference',pct:71},{name:'Diffraction',pct:58},{name:'Polarization',pct:44}],
+      all:  [{name:'Wave Optics',pct:66},{name:'EM Induction',pct:55},{name:'Modern Physics',pct:40}]
+    },
+    mathB: {
+      week: [{name:'Definite Integrals',pct:70},{name:'Trig Identities',pct:58},{name:'Limits',pct:46}],
+      unit: [{name:'Integration by Parts',pct:68},{name:'Partial Fractions',pct:54},{name:'Substitution',pct:42}],
+      all:  [{name:'Calculus — Integration',pct:64},{name:'Probability',pct:52},{name:'Coord Geometry',pct:38}]
+    },
+    advC: {
+      week: [{name:'Matrix Inverses',pct:78},{name:'Complex Roots',pct:66},{name:'Line Integrals',pct:54}],
+      unit: [{name:'Eigenvectors',pct:72},{name:'Diagonalization',pct:60},{name:'Rank & Nullity',pct:48}],
+      all:  [{name:'Linear Algebra',pct:70},{name:'Vector Calc',pct:58},{name:'Complex Analysis',pct:46}]
+    }
+  };
+
+  // ── deterministic PRNG ──
+  function mulberry32(a) {
+    return function() {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function seedOf(s){ var x=2166136261; for(var i=0;i<s.length;i++){x^=s.charCodeAt(i);x=Math.imul(x,16777619);} return x>>>0; }
+
+  // ── generate fake scores per (group, dataset, unit) ──
+  function genScores(gkey, dataset, unit) {
+    var sizes = { physA: 26, mathB: 22, advC: 14 };
+    var n = sizes[gkey] || 20;
+    var base = { hw: 72, assess: 68, week: 70, month: 75, course: 74 }[dataset] || 70;
+    var groupShift = { physA: 0, mathB: -3, advC: 8 }[gkey] || 0;
+    var unitShift = unit && unit !== 'all' ? ((seedOf(unit) % 11) - 5) : 0;
+    var mu = base + groupShift + unitShift;
+    var spread = dataset === 'assess' ? 18 : dataset === 'hw' ? 14 : 12;
+    var rnd = mulberry32(seedOf(gkey + '|' + dataset + '|' + (unit||'all')));
+    var out = [];
+    for (var i=0;i<n;i++) {
+      // box-muller-ish bell shape
+      var z = (rnd()+rnd()+rnd()+rnd()-2) / 2;
+      var v = Math.round(mu + z*spread);
+      out.push(Math.max(30, Math.min(100, v)));
+    }
+    return out;
+  }
+
+  // ── KDE density plot ──
+  var X_MIN = 30, X_MAX = 100;
+  var LABELS = ['30','40','50','60','70','80','90','100'];
+  var GAUSS_K = 1 / Math.sqrt(2 * Math.PI);
+
+  function kde(scores, xs, bw) {
+    var n = scores.length;
+    return xs.map(function(x) {
+      var s = 0;
+      for (var i=0;i<n;i++) {
+        var u = (x - scores[i]) / bw;
+        s += GAUSS_K * Math.exp(-0.5*u*u);
       }
-    });
-    setTimeout(function(){
-      assChart.options.animation={duration:700,easing:'easeInOutQuart'};
-      assChart.data.datasets[0].data=lastScores.slice();
-      assChart.update();
-    },700);
-    assCtx.addEventListener('mouseenter',function(){
-      assChart.options.animation={duration:500,easing:'easeInOutQuart'};
-      assChart.data.datasets[0].data=lastScores.map(function(v){return Math.max(40,Math.min(100,v+(Math.random()-.5)*25));});
-      assChart.update();
-      setTimeout(function(){ assChart.options.animation={duration:700,easing:'easeInOutQuart'}; assChart.data.datasets[0].data=lastScores.slice(); assChart.update(); },600);
+      return s / (n * bw);
     });
   }
-  if (window._setGroupCharts) window._setGroupCharts(monthChart, assChart);
-  window._monthChart = monthChart;
-  window._assChart   = assChart;
+
+  var HIST_GEOM = { W:400, H:150, padX:12, padTop:10, padBot:14 };
+
+  function renderHistogram(scores, animate) {
+    var svg = document.getElementById('histSvg'); if (!svg) return;
+    var g = HIST_GEOM;
+    var innerW = g.W - 2*g.padX, innerH = g.H - g.padTop - g.padBot;
+    var baseY = g.H - g.padBot;
+
+    var sd = stdev(scores);
+    var bw = Math.max(3.5, 1.06 * sd * Math.pow(scores.length, -0.2));
+
+    var N = 120, xs = [];
+    for (var i=0;i<N;i++) xs.push(X_MIN + (X_MAX - X_MIN) * i/(N-1));
+    var ys = kde(scores, xs, bw);
+    var maxY = Math.max.apply(null, ys) || 1;
+
+    var pts = xs.map(function(x, i) {
+      var px = g.padX + (x - X_MIN) / (X_MAX - X_MIN) * innerW;
+      var py = baseY - (ys[i] / maxY) * innerH;
+      return [px, py];
+    });
+
+    var d = 'M ' + g.padX.toFixed(1) + ' ' + baseY.toFixed(1);
+    for (var i=0;i<pts.length;i++) d += ' L ' + pts[i][0].toFixed(2) + ' ' + pts[i][1].toFixed(2);
+    d += ' L ' + (g.W - g.padX).toFixed(1) + ' ' + baseY.toFixed(1) + ' Z';
+
+    svg.innerHTML =
+      '<defs><clipPath id="binClip"><rect id="binClipRect" x="0" y="0" width="0" height="'+g.H+'"/></clipPath></defs>' +
+      '<line x1="'+g.padX+'" y1="'+baseY+'" x2="'+(g.W-g.padX)+'" y2="'+baseY+'" stroke="#d0daea" stroke-width="1" vector-effect="non-scaling-stroke"/>' +
+      '<path id="densPath" d="'+d+'" fill="rgba(46,92,168,0.14)" stroke="#2e5ca8" stroke-width="1.6" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>' +
+      '<path id="densHilight" d="'+d+'" fill="rgba(212,87,10,0.32)" stroke="#d4570a" stroke-width="1.8" stroke-linejoin="round" vector-effect="non-scaling-stroke" clip-path="url(#binClip)"/>';
+
+    if (animate) {
+      svg.style.opacity = 0;
+      svg.style.transition = 'opacity 500ms ease-out';
+      requestAnimationFrame(function(){ svg.style.opacity = 1; });
+    }
+
+    var xlab = document.getElementById('histXlabels');
+    if (xlab) xlab.innerHTML = LABELS.map(function(l){ return '<div>'+l+'</div>'; }).join('');
+
+    var mn=mean(scores), md=median(scores);
+    var rank = mn>=78 ? 'Strong' : mn>=68 ? 'Good' : 'Below avg';
+    var rc   = mn>=78 ? 'var(--blue-mid)' : mn>=68 ? 'var(--orange)' : '#dc2626';
+    setEl('statMean',   mn.toFixed(1)+'%');
+    setEl('statMedian', md.toFixed(1)+'%');
+    setEl('statStdev',  '±'+sd.toFixed(1));
+    setEl('statRank',   rank, rc);
+  }
+
+  function renderWeakness(gkey, scope) {
+    var list = (WEAKNESS[gkey] && WEAKNESS[gkey][scope]) || [];
+    var el = document.getElementById('waList'); if (!el) return;
+    el.innerHTML = list.map(function(w){
+      return '<div class="rbar-row"><span class="rbar-lbl" style="width:auto;flex:0 0 auto;min-width:90px;">'+w.name+'</span>'+
+             '<div class="rbar-wrap" style="flex:1 1 auto;min-width:180px;"><div class="rbar" style="width:0%;background:#d4570a;"></div></div>'+
+             '<span class="rbar-pct">'+w.pct+'%</span></div>';
+    }).join('');
+    // animate bars
+    setTimeout(function() {
+      el.querySelectorAll('.rbar').forEach(function(b, i) {
+        b.style.transition = 'width 700ms ease-out';
+        b.style.width = list[i].pct + '%';
+      });
+    }, 30);
+  }
+
+  function populateUnitList(gkey) {
+    var sel = document.getElementById('histUnitList'); if (!sel) return;
+    var units = UNITS[gkey] || [];
+    sel.innerHTML = units.map(function(u){ return '<option value="'+u+'">'+u+'</option>'; }).join('');
+  }
+
+  function currentUnit() {
+    var mode = document.getElementById('histUnits');
+    var list = document.getElementById('histUnitList');
+    if (mode && mode.value === 'pick' && list && list.value) return list.value;
+    return 'all';
+  }
+
+  function currentGroup() {
+    var s = document.getElementById('masterGroupSelect');
+    return s ? s.value : 'physA';
+  }
+
+  function rerender(animate) {
+    var gkey = currentGroup();
+    var ds = document.getElementById('histDataset');
+    var dataset = ds ? ds.value : 'month';
+    var unit = currentUnit();
+    var scores = genScores(gkey, dataset, unit);
+    renderHistogram(scores, animate);
+
+    var wa = document.getElementById('waScope');
+    renderWeakness(gkey, wa ? wa.value : 'week');
+  }
+
+  // ── jiggle cooldown (shared across graphs) ──
+  window._jiggleLast = window._jiggleLast || {};
+  window._jiggleOnce = function(key, fn, cooldownMs) {
+    cooldownMs = cooldownMs || 3500;
+    var now = Date.now();
+    if (window._jiggleLast[key] && now - window._jiggleLast[key] < cooldownMs) return;
+    window._jiggleLast[key] = now;
+    fn();
+  };
+
+  function jiggleHistogram() {
+    var gkey = currentGroup();
+    var ds = document.getElementById('histDataset');
+    var dataset = ds ? ds.value : 'month';
+    var unit = currentUnit();
+    var clean = genScores(gkey, dataset, unit);
+    var noisy = clean.map(function(v) { return Math.max(30, Math.min(100, v + (Math.random()*2-1)*7)); });
+    renderHistogram(noisy, false);
+    setTimeout(function() { renderHistogram(clean, false); }, 550);
+  }
+
+  // ── bin hover highlight ──
+  var BIN_EDGES = [30,40,50,60,70,80,90,100];
+  function updateBinClip(binIdx) {
+    var rect = document.getElementById('binClipRect'); if (!rect) return;
+    if (binIdx < 0) { rect.setAttribute('width', 0); return; }
+    var g = HIST_GEOM;
+    var innerW = g.W - 2*g.padX;
+    var lo = BIN_EDGES[binIdx], hi = BIN_EDGES[binIdx+1];
+    var x1 = g.padX + (lo - X_MIN) / (X_MAX - X_MIN) * innerW;
+    var x2 = g.padX + (hi - X_MIN) / (X_MAX - X_MIN) * innerW;
+    rect.setAttribute('x', x1.toFixed(2));
+    rect.setAttribute('width', (x2 - x1).toFixed(2));
+  }
+
+  var svgEl = document.getElementById('histSvg');
+  if (svgEl) {
+    svgEl.addEventListener('mouseenter', function() {
+      window._jiggleOnce('histogram', jiggleHistogram);
+    });
+    svgEl.addEventListener('mousemove', function(e) {
+      var r = svgEl.getBoundingClientRect();
+      var nx = (e.clientX - r.left) / r.width;
+      var vbX = nx * HIST_GEOM.W;
+      var score = X_MIN + (vbX - HIST_GEOM.padX) / (HIST_GEOM.W - 2*HIST_GEOM.padX) * (X_MAX - X_MIN);
+      if (score < X_MIN || score > X_MAX) { updateBinClip(-1); return; }
+      var bin = Math.min(6, Math.max(0, Math.floor((score - X_MIN) / 10)));
+      updateBinClip(bin);
+    });
+    svgEl.addEventListener('mouseleave', function() { updateBinClip(-1); });
+  }
+
+  // wire up controls
+  var dsSel = document.getElementById('histDataset');
+  if (dsSel) dsSel.addEventListener('change', function(){ rerender(true); });
+
+  var uSel = document.getElementById('histUnits');
+  var uList = document.getElementById('histUnitList');
+  if (uSel) uSel.addEventListener('change', function() {
+    if (this.value === 'pick') {
+      populateUnitList(currentGroup());
+      if (uList) uList.style.display = '';
+    } else {
+      if (uList) uList.style.display = 'none';
+    }
+    rerender(true);
+  });
+  if (uList) uList.addEventListener('change', function(){ rerender(true); });
+
+  var waSel = document.getElementById('waScope');
+  if (waSel) waSel.addEventListener('change', function(){ renderWeakness(currentGroup(), this.value); });
+
+  // expose for master-group switcher
+  window._rerenderGroup = function() {
+    populateUnitList(currentGroup());
+    rerender(true);
+  };
+
+  // initial paint
+  populateUnitList(currentGroup());
+  rerender(false);
 })();
+
 // ── Master group switcher ──
 (function() {
   var C = 326.7;
@@ -1492,7 +1986,12 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
       lastLabels:  ['Priya','Rahul','Ayesha','Dev','Sneha'],
       ring: {mastered:48,progress:35,weak:17},
       upcoming:'Wed Apr 16 · 11:00', next:'Ray Optics',
-      hw:'2 overdue · 6/8', hwColor:'var(--orange)', date:'Apr 22 — Boards'
+      hw:'2 overdue · 6/8', hwColor:'var(--orange)', date:'Apr 22 — Boards',
+      upTests: [
+        {n:'Batch A', t:'Mock Boards · Ray & Wave Optics', d:'Apr 22'},
+        {n:'Batch A', t:'Unit test · Thermodynamics', d:'Apr 29'},
+        {n:'Batch A', t:'AP Physics practice set', d:'May 5'}
+      ]
     },
     mathB: {
       label: 'Maths Batch B',
@@ -1502,7 +2001,12 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
       lastLabels:  ['Sofia','James','Lily','Arjun'],
       ring: {mastered:52,progress:30,weak:18},
       upcoming:'Thu Apr 17 · 10:00', next:'Definite Integrals',
-      hw:'1 overdue · 3/4', hwColor:'var(--orange)', date:'Apr 24 — Mid-term'
+      hw:'1 overdue · 3/4', hwColor:'var(--orange)', date:'Apr 24 — Mid-term',
+      upTests: [
+        {n:'Batch B', t:'Mid-term · Calculus', d:'Apr 24'},
+        {n:'Batch B', t:'Chapter quiz · Integrals', d:'Apr 30'},
+        {n:'Batch B', t:'SAT Math practice', d:'May 6'}
+      ]
     },
     advC: {
       label: 'Advanced Batch C',
@@ -1512,11 +2016,14 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
       lastLabels:  ['Meera','Zaid','Chloe'],
       ring: {mastered:68,progress:24,weak:8},
       upcoming:'Fri Apr 18 · 09:00', next:'EM Induction',
-      hw:'All on time · 3/3', hwColor:'var(--blue-mid)', date:'Apr 26 — Assessment'
+      hw:'All on time · 3/3', hwColor:'var(--blue-mid)', date:'Apr 26 — Assessment',
+      upTests: [
+        {n:'Batch C', t:'Assessment · EM Induction', d:'Apr 26'},
+        {n:'Batch C', t:'A-Levels mock · Full paper', d:'May 3'},
+        {n:'Batch C', t:'MCAT prep · Mechanics', d:'May 10'}
+      ]
     }
   };
-
-  var monthChart = null, assChart = null;
 
   function switchGroup(gkey) {
     var g = groups[gkey];
@@ -1545,27 +2052,38 @@ document.querySelectorAll('.pie-wrap').forEach(function(wrap) {
     var gd=document.getElementById('g-date');     if(gd) gd.textContent=g.date;
     animateRing(document.getElementById('ring2'));
 
-    // update charts
-    if (monthChart) {
-      monthChart.options.animation={duration:500,easing:'easeInOutQuart'};
-      monthChart.data.datasets[0].data=g.monthScores.map(function(v){return Math.max(50,Math.min(100,v+(Math.random()-.5)*15));});
-      monthChart.update();
-      setTimeout(function(){ monthChart.options.animation={duration:700,easing:'easeInOutQuart'}; monthChart.data.datasets[0].data=g.monthScores.slice(); monthChart.update(); },600);
+    // refresh group upcoming tests
+    var gUp = document.getElementById('g-upcoming-list');
+    if (gUp && g.upTests) {
+      gUp.innerHTML = g.upTests.map(function(t, i){
+        return '<div class="act"><span class="act-idx">'+(i+1)+'.</span>'+
+               '<span class="act-name">'+t.n+'</span>'+
+               '<span class="act-topic">'+t.t+'</span>'+
+               '<span class="act-date">'+t.d+'</span></div>';
+      }).join('');
     }
-    if (assChart) {
-      assChart.data.labels = g.lastLabels;
-      assChart.options.animation={duration:500,easing:'easeInOutQuart'};
-      assChart.data.datasets[0].data=g.lastScores.map(function(v){return Math.max(40,Math.min(100,v+(Math.random()-.5)*20));});
-      assChart.update();
-      setTimeout(function(){ assChart.options.animation={duration:700,easing:'easeInOutQuart'}; assChart.data.datasets[0].data=g.lastScores.slice(); assChart.update(); },600);
-    }
-  }
 
-  // expose chart refs so switchGroup can use them
-  window._setGroupCharts = function(mc, ac) { monthChart=mc; assChart=ac; };
+    // re-render histogram + weakness for new group
+    if (typeof window._rerenderGroup === 'function') window._rerenderGroup();
+  }
 
   var sel = document.getElementById('masterGroupSelect');
   if (sel) sel.addEventListener('change', function(){ switchGroup(this.value); });
+})();
+
+// ── Convert schedule time-blocks (.tb) to video-session anchors ──
+(function() {
+  document.querySelectorAll('.tb').forEach(function(el, i) {
+    if (el.tagName === 'A') return; // already an anchor with a curated href
+    var a = document.createElement('a');
+    a.className = el.className;
+    var b = el.querySelector('b');
+    var slug = b ? b.textContent.replace(/[^0-9]/g,'').padStart(4,'0') : ('slot-'+i);
+    a.href = '#live/session-' + slug;
+    a.title = 'Join video session' + (b ? ' · ' + b.textContent : '');
+    a.innerHTML = el.innerHTML;
+    el.parentNode.replaceChild(a, el);
+  });
 })();
 
 // ══════════════════════════════════════════════════
@@ -1583,47 +2101,37 @@ var _spotSteps = [
   {
     id: 'spot-schedule',
     title: 'My Schedule',
-    desc: 'Your two-week calendar at a glance. Last week\'s sessions are shown above, this week\'s below — colour-coded by subject so you can scan who\'s on today without opening a calendar app.'
+    desc: 'Top row shows the next seven days at a glance. Below that, today and tomorrow are stacked so you can see exactly who\'s next — each tile is a click-to-join link into the platform\'s video session.'
   },
   {
-    id: 'spot-timeblocks',
-    title: 'Time Blocks',
-    desc: 'A visual heat-map of your available teaching hours. Blue slots are confirmed sessions, orange slots are tentative or pending. Empty grey slots are open — great for spotting gaps to offer new students.'
+    id: 'spot-pending',
+    title: 'Pending Homework & Assessments',
+    desc: 'A running list of homeworks and assessments your students still owe you. Each row names the student, the topic, and when it\'s due — overdue items are called out so you know who to nudge.'
   },
   {
-    id: 'spot-hwdue',
-    title: 'Homeworks Due & Content Reviews',
-    desc: 'Quick-action alerts at the bottom of your schedule. The left pill shows homeworks your students need to submit; the right shows content materials flagged for your review before the next lesson.'
+    id: 'spot-contentreview',
+    title: 'Content Review',
+    desc: 'Lesson notes, quizzes, and worked-example sets flagged for your review before they go live to students. Keep this queue short and your teaching material stays sharp.'
   },
   {
-    id: 'spot-reqlist',
-    title: 'Request List',
-    desc: 'New booking requests from prospective students waiting for your approval. Each row shows the student\'s name, country, whether they want 1-on-1 or group tuition, and the batch they\'d join. One click to approve.'
-  },
-  {
-    id: 'spot-reqreview',
-    title: 'Request Review',
-    desc: 'A running summary of all requests received this month — total count, trend vs last month, and a country breakdown. Use this to gauge demand and decide if you need to expand capacity.'
-  },
-  {
-    id: 'spot-assessment',
-    title: 'Assessment List',
-    desc: 'The most recently submitted assessments across all your students. Each row shows the test name, score, student, and date — with a progress bar so you can spot who\'s improving and who needs attention.'
+    id: 'spot-tutoring',
+    title: 'Your Tutoring',
+    desc: 'A pulse on your teaching volume this month. Pick a metric — hours tutored, sessions completed, new students, or revenue — and the line chart re-draws with a little animation.'
   },
   {
     id: 'spot-earnings',
     title: 'My Earnings',
-    desc: 'Your financial snapshot: this month\'s revenue, year-to-date total, and percentage of your earnings goal. The line chart below tracks weekly income — hover it to animate the trend.'
-  },
-  {
-    id: 'spot-topstudent',
-    title: 'Top Students by Income',
-    desc: 'Your three highest-value students ranked by session revenue this month. Great for recognising your most engaged learners and understanding where your income is concentrated.'
+    desc: 'Your financial snapshot: this month\'s revenue, year-to-date total, and percentage of your earnings goal. The line chart re-plots by month, country, curricula, subject, or grade — hover it to re-animate.'
   },
   {
     id: 'spot-uploads',
     title: 'My Uploads',
-    desc: 'All content you\'ve shared with students — PDFs, videos, and documents — listed by upload date with file size. Drafts sit below the divider so work-in-progress never clutters the published list.'
+    desc: 'Recent uploads up top — PDFs, videos, docs. Below the divider, Uploads Expected lists the content you still need to prepare for upcoming lessons, so nothing slips.'
+  },
+  {
+    id: 'spot-reqlist',
+    title: 'Tutoring Requests',
+    desc: 'New booking requests from prospective students waiting for your approval. Each row shows the student\'s name, session type (1-on-1 / Group), subject, and date. One click to approve.'
   },
   {
     id: 'spot-studentdata',
@@ -1633,7 +2141,7 @@ var _spotSteps = [
   {
     id: 'spot-groupdata',
     title: 'Group Data',
-    desc: 'Batch-level analytics — monthly score trends, last-assessment scores for every student in the batch, and summary stats (mean, median, std. deviation). The ring on the right gives a cohort health snapshot.'
+    desc: 'Batch-level score distribution — pick a dataset (last homework, last assessment, weekly/monthly/course totals) and drill into individual units. The histogram shows how many students scored in each band, with summary stats below and top weakness areas at the bottom.'
   }
 ];
 
