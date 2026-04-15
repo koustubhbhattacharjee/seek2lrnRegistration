@@ -370,13 +370,16 @@ body {
 
 /* ── CARD ── */
 /* section headers */
-.shdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+.shdr { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.5rem; margin-bottom: 0.7rem; }
 .shdr h2 {
+  grid-column: 2;
   font-family: var(--sans);
-  font-size: 0.58rem; font-weight: 700;
-  color: var(--ink1); text-transform: uppercase; letter-spacing: 1.4px;
+  font-size: 1.05rem; font-weight: 800;
+  color: var(--ink1); text-transform: uppercase; letter-spacing: 1.2px;
+  text-align: center;
 }
-.shdr a { font-size: 0.78rem; color: var(--orange); text-decoration: none; font-weight: 700; }
+.shdr > *:not(h2) { grid-column: 3; justify-self: end; }
+.shdr a { font-size: 0.8rem; color: var(--orange); text-decoration: none; font-weight: 700; }
 
 /* ── TOP 2-COL GRID ── (col1: activities stack, col2: right-stack 2x2) */
 .top-grid { display: grid; grid-template-columns: 1fr 1.36fr; gap: 1.1rem; align-items: stretch; }
@@ -389,7 +392,7 @@ body {
 .main { gap: 1.3rem !important; padding: 1.4rem !important; }
 
 /* EARNINGS */
-.earn-stats { display: flex; gap: 0.5rem; margin: 0.5rem 0 0.4rem; }
+.earn-stats { display: flex; gap: 0.5rem; margin: 0.5rem 0 0.4rem; max-width: 440px; }
 .estat {
   flex: 1; background: transparent; padding: 0.42rem 0.75rem;
   border-left: 1.5px solid var(--border);
@@ -505,8 +508,8 @@ body {
 
 .ddrow { display: flex; gap: 0.38rem; margin-bottom: 0.55rem; }
 .msel {
-  flex: 1; padding: 0.3rem 0.5rem;
-  
+  flex: 0 0 auto; padding: 0.3rem 0.5rem;
+  width: auto; max-width: 200px;
   border-radius: 0;
   font-size: 0.83rem; color: var(--ink2); font-family: var(--sans);
   outline: none; background: var(--white); cursor: pointer;
@@ -517,9 +520,9 @@ body {
 .stats-pair { display: flex; flex-direction: column; align-items: center; margin-bottom: 0.6rem; }
 .sess-box { display: none; }
 .ring-block { display: flex; flex-direction: column; align-items: center; margin-bottom: 0.6rem; }
-.pie-wrap { width: 140px; height: 140px; flex-shrink: 0; perspective: 600px; }
-.ring-svg { width: 140px; height: 140px; display: block; }
-.ring-wrap { width: 140px; height: 140px; }
+.pie-wrap { width: 180px; height: 180px; flex-shrink: 0; perspective: 600px; }
+.ring-svg { width: 180px; height: 180px; display: block; }
+.ring-wrap { width: 180px; height: 180px; }
 .ring-stats { display: flex; gap: 0.75rem; justify-content: center; margin-top: 0.6rem; }
 .ring-stat-item { text-align: center; }
 .ring-stat-item .rsn { font-family: var(--mono); font-size: 1.25rem; font-weight: 700; color: var(--navy); line-height: 1; }
@@ -823,7 +826,7 @@ body {
           <div class="shdr"><h2>My Schedule</h2><a href="#">Full calendar →</a></div>
 
           <!-- Row 1: next 7 days overview -->
-          <div style="font-size:0.68rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1px;margin:0.5rem 0 0.3rem;">Next 7 days · Apr 15–21</div>
+          <div style="font-size:1.05rem;font-weight:800;color:var(--ink1);text-transform:uppercase;letter-spacing:1.2px;margin:0.5rem 0 0.3rem;text-align:center;">Next 7 days · Apr 15–21</div>
           <div class="sched-grid">
             <div class="dcol"><div class="dlbl">Tue</div><div class="dnum today">15</div><div class="tb pu"><b>10:00</b>Ayesha · Math</div></div>
             <div class="dcol"><div class="dlbl">Wed</div><div class="dnum">16</div><div class="tb bl"><b>11:00</b>Dev · Phys</div><div class="tb tl"><b>15:00</b>Sneha · Math</div></div>
@@ -877,10 +880,10 @@ body {
       <!-- Col 2: right-stack 2x2 (Tutoring | Earnings / Uploads | Tutoring Requests) -->
       <div class="right-stack">
 
-        <!-- Row 1: Your Tutoring | My Earnings -->
+        <!-- Row 1: My Tutoring | My Earnings -->
         <div class="rstack-row1">
           <div class="card" id="spot-tutoring">
-            <div class="shdr"><h2>Your Tutoring</h2><a href="#">Details →</a></div>
+            <div class="shdr"><h2>My Tutoring</h2><a href="#">Details →</a></div>
             <div style="font-size:0.7rem;color:var(--ink3);margin-bottom:0.2rem;">This month · YTD % of goal</div>
             <div style="display:flex;align-items:baseline;gap:0.45rem;margin-bottom:0.3rem;">
               <span style="font-family:var(--mono);font-size:1.6rem;font-weight:600;color:var(--navy);letter-spacing:-1px;" id="tutHead">48 hrs</span>
@@ -998,57 +1001,66 @@ body {
         <div id="spot-studentdata" style="padding:0 1rem 0 0;">
           <div class="shdr"><h2>Individual</h2></div>
 
-          <!-- ring + picker side by side -->
-          <div style="display:flex;gap:0.8rem;align-items:flex-start;margin-top:0.4rem;">
-            <div class="pie-wrap" style="flex-shrink:0;">
-              <div class="ring-wrap" id="ring1">
-                <svg class="ring-svg" viewBox="0 0 140 140" fill="none">
-                  <circle cx="70" cy="70" r="52" class="rs-track" stroke-width="16" fill="none"/>
-                  <circle cx="70" cy="70" r="52" id="s-seg-dark" class="rs-dark" stroke-width="16" fill="none" stroke-dasharray="202.4 124.5" stroke-dashoffset="81.6" stroke-linecap="butt"/>
-                  <circle cx="70" cy="70" r="52" id="s-seg-mid" class="rs-mid" stroke-width="16" fill="none" stroke-dasharray="81.7 245.2" stroke-dashoffset="-120.8" stroke-linecap="butt"/>
-                  <circle cx="70" cy="70" r="52" id="s-seg-accent" class="rs-accent" stroke-width="16" fill="none" stroke-dasharray="42.4 284.5" stroke-dashoffset="-202.5" stroke-linecap="butt"/>
-                </svg>
+          <!-- Ring is the star — selectors, stats, legend, info and tests all flow to its right -->
+          <div style="display:flex;gap:1.4rem;align-items:center;margin-top:0.6rem;">
+
+            <!-- RING: center stage, big -->
+            <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+              <div class="pie-wrap" style="width:260px;height:260px;">
+                <div class="ring-wrap" id="ring1" style="width:260px;height:260px;">
+                  <svg class="ring-svg" viewBox="0 0 140 140" fill="none" style="width:260px;height:260px;">
+                    <circle cx="70" cy="70" r="52" class="rs-track" stroke-width="16" fill="none"/>
+                    <circle cx="70" cy="70" r="52" id="s-seg-dark" class="rs-dark" stroke-width="16" fill="none" stroke-dasharray="202.4 124.5" stroke-dashoffset="81.6" stroke-linecap="butt"/>
+                    <circle cx="70" cy="70" r="52" id="s-seg-mid" class="rs-mid" stroke-width="16" fill="none" stroke-dasharray="81.7 245.2" stroke-dashoffset="-120.8" stroke-linecap="butt"/>
+                    <circle cx="70" cy="70" r="52" id="s-seg-accent" class="rs-accent" stroke-width="16" fill="none" stroke-dasharray="42.4 284.5" stroke-dashoffset="-202.5" stroke-linecap="butt"/>
+                  </svg>
+                </div>
               </div>
-            </div>
-            <div style="flex:1;min-width:0;">
-              <select class="msel" id="studentSelect" style="width:100%;margin-bottom:0.5rem;">
-                <option>Priya Sharma</option>
-                <option>Rahul Mehta</option>
-                <option>Ayesha Khan</option>
-                <option>Dev Anand</option>
-              </select>
-              <select class="msel" id="subjectSelect" style="width:100%;margin-bottom:0.6rem;">
-                <option>Physics</option><option>Mathematics</option>
-              </select>
-              <div class="ring-stats" style="margin-bottom:0.3rem;">
+              <div class="ring-stats" style="margin-top:0.3rem;">
                 <div class="ring-stat-item"><div class="rsn" id="s-sessions">18</div><div class="rsl">Sessions</div></div>
                 <div class="ring-stat-item"><div class="rsn" id="s-mastered">62%</div><div class="rsl">Mastered</div></div>
                 <div class="ring-stat-item"><div class="rsn" id="s-weak">13%</div><div class="rsl">Weak</div></div>
               </div>
-              <div class="pie-legend">
+              <div class="pie-legend" style="margin-top:0.1rem;">
                 <div class="pleg"><div class="plegsq" style="background:var(--ring-dark)"></div>Mastered</div>
                 <div class="pleg"><div class="plegsq" style="background:var(--ring-mid)"></div>Progress</div>
                 <div class="pleg"><div class="plegsq" style="background:var(--ring-accent)"></div>Weak</div>
               </div>
             </div>
-          </div>
 
-          <div class="info-list" style="margin-top:0.5rem;">
-            <div class="il"><span class="il-lbl">Upcoming</span><span class="il-val" id="s-upcoming">Tue Apr 15 · 10:00 · Maths</span></div>
-            <div class="il"><span class="il-lbl">Weakness</span><span class="il-val" id="s-weakness">Integration, Wave Optics</span></div>
-            <div class="il"><span class="il-lbl">Next Topic</span><span class="il-val" id="s-next">Definite Integrals</span></div>
-            <div class="il"><span class="il-lbl">HW Status</span><span class="il-val" id="s-hw" style="font-weight:700;color:var(--blue-mid);">On time · 4/5</span></div>
-            <div class="il"><span class="il-lbl">Key Date</span><span class="il-val" id="s-date">Apr 20 — School exam</span></div>
-          </div>
+            <!-- Everything else flows to the right of the ring -->
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:0.7rem;">
+              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <select class="msel" id="studentSelect" style="width:180px;">
+                  <option>Priya Sharma</option>
+                  <option>Rahul Mehta</option>
+                  <option>Ayesha Khan</option>
+                  <option>Dev Anand</option>
+                </select>
+                <select class="msel" id="subjectSelect" style="width:150px;">
+                  <option>Physics</option><option>Mathematics</option>
+                </select>
+              </div>
 
-          <!-- Upcoming tests for this student -->
-          <div id="spot-student-upcoming" style="margin-top:1.1rem;">
-            <div class="shdr" style="margin-bottom:0.4rem;"><h2>Upcoming Tests</h2></div>
-            <div class="act-list" id="s-upcoming-list">
-              <div class="act"><span class="act-idx">1.</span><span class="act-name">Maths</span><span class="act-topic">Calculus unit test · 1-on-1</span><span class="act-date">Apr 20</span></div>
-              <div class="act"><span class="act-idx">2.</span><span class="act-name">Physics</span><span class="act-topic">Wave Optics mock</span><span class="act-date">Apr 24</span></div>
-              <div class="act"><span class="act-idx">3.</span><span class="act-name">SAT</span><span class="act-topic">Math section practice</span><span class="act-date">May 1</span></div>
+              <div class="info-list">
+                <div class="il"><span class="il-lbl">Upcoming</span><span class="il-val" id="s-upcoming">Tue Apr 15 · 10:00 · Maths</span></div>
+                <div class="il"><span class="il-lbl">Weakness</span><span class="il-val" id="s-weakness">Integration, Wave Optics</span></div>
+                <div class="il"><span class="il-lbl">Next Topic</span><span class="il-val" id="s-next">Definite Integrals</span></div>
+                <div class="il"><span class="il-lbl">HW Status</span><span class="il-val" id="s-hw" style="font-weight:700;color:var(--blue-mid);">On time · 4/5</span></div>
+                <div class="il"><span class="il-lbl">Key Date</span><span class="il-val" id="s-date">Apr 20 — School exam</span></div>
+              </div>
+
+              <!-- Upcoming tests for this student -->
+              <div id="spot-student-upcoming">
+                <div class="shdr" style="margin-bottom:0.4rem;"><h2>Upcoming Tests</h2></div>
+                <div class="act-list" id="s-upcoming-list">
+                  <div class="act"><span class="act-idx">1.</span><span class="act-name">Maths</span><span class="act-topic">Calculus unit test · 1-on-1</span><span class="act-date">Apr 20</span></div>
+                  <div class="act"><span class="act-idx">2.</span><span class="act-name">Physics</span><span class="act-topic">Wave Optics mock</span><span class="act-date">Apr 24</span></div>
+                  <div class="act"><span class="act-idx">3.</span><span class="act-name">SAT</span><span class="act-topic">Math section practice</span><span class="act-date">May 1</span></div>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -1059,8 +1071,8 @@ body {
         <div id="spot-groupdata" style="padding:0 0 0 0.8rem;display:flex;flex-direction:column;gap:0.3rem;height:100%;">
 
           <!-- Groups header — only over the right two cols -->
-          <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0;margin-bottom:0.1rem;">
-            <div style="font-size:0.58rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1.4px;">Groups</div>
+          <div class="shdr" style="flex-shrink:0;margin-bottom:0.3rem;">
+            <h2>Groups</h2>
             <select class="msel" id="masterGroupSelect" style="width:160px;">
               <option value="physA">Physics Batch A</option>
               <option value="mathB">Maths Batch B</option>
@@ -1117,9 +1129,9 @@ body {
 
             <!-- Weakness Areas -->
             <div id="spot-weakness" style="margin-top:0.5rem;">
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:0.3rem;margin-bottom:0.3rem;">
-                <div style="font-size:0.68rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1px;">Weakness Areas</div>
-                <select class="msel" id="waScope" style="flex:0 0 auto;width:140px;font-size:0.74rem;padding:0.28rem 0.5rem;">
+              <div class="shdr" style="margin-bottom:0.3rem;">
+                <h2>Weakness Areas</h2>
+                <select class="msel" id="waScope" style="width:140px;font-size:0.74rem;padding:0.28rem 0.5rem;">
                   <option value="week">Past week</option>
                   <option value="unit">Current unit</option>
                   <option value="all">All units</option>
@@ -1130,7 +1142,7 @@ body {
 
             <!-- Upcoming tests for this group -->
             <div id="spot-group-upcoming" style="margin-top:0.85rem;">
-              <div style="font-size:0.68rem;font-weight:700;color:var(--ink1);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.35rem;">Upcoming Tests</div>
+              <div style="font-size:1.05rem;font-weight:800;color:var(--ink1);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:0.35rem;text-align:center;">Upcoming Tests</div>
               <div class="act-list" id="g-upcoming-list">
                 <div class="act"><span class="act-idx">1.</span><span class="act-name">Batch A</span><span class="act-topic">Mock Boards · Ray &amp; Wave Optics</span><span class="act-date">Apr 22</span></div>
                 <div class="act"><span class="act-idx">2.</span><span class="act-name">Batch A</span><span class="act-topic">Unit test · Thermodynamics</span><span class="act-date">Apr 29</span></div>
@@ -1157,9 +1169,9 @@ body {
             </select>
 
             <div style="display:flex;justify-content:center;margin-bottom:0.3rem;">
-              <div class="pie-wrap" style="width:100px;height:100px;">
-                <div class="ring-wrap" id="ring2" style="width:100px;height:100px;">
-                  <svg width="100" height="100" viewBox="0 0 140 140" fill="none">
+              <div class="pie-wrap" style="width:140px;height:140px;">
+                <div class="ring-wrap" id="ring2" style="width:140px;height:140px;">
+                  <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
                     <circle cx="70" cy="70" r="52" class="rs-track" stroke-width="16" fill="none"/>
                     <circle cx="70" cy="70" r="52" id="g-seg-dark" class="rs-dark" stroke-width="16" fill="none" stroke-dasharray="156.8 169.9" stroke-dashoffset="81.6" stroke-linecap="butt"/>
                     <circle cx="70" cy="70" r="52" id="g-seg-mid" class="rs-mid" stroke-width="16" fill="none" stroke-dasharray="114.5 212.2" stroke-dashoffset="-75.2" stroke-linecap="butt"/>
@@ -2115,7 +2127,7 @@ var _spotSteps = [
   },
   {
     id: 'spot-tutoring',
-    title: 'Your Tutoring',
+    title: 'My Tutoring',
     desc: 'A pulse on your teaching volume this month. Pick a metric — hours tutored, sessions completed, new students, or revenue — and the line chart re-draws with a little animation.'
   },
   {
